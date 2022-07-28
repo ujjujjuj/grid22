@@ -1,0 +1,126 @@
+.productCard:hover{
+    transform: scale(1.02);
+}
+.productCard {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+.productCard p.prodName{
+    margin-top: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    min-width: -moz-fit-content;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.prodImg {
+    background-image: url("../assets/images/product-placeholder.png");
+    background-size: contain;
+    border-radius: 2px;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 15vw;
+}
+
+.productCard p {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.prodName,.prodPrice{
+    display: flex;
+    flex-direction: column;
+    transition: color 0.2s ease;
+    width: fit-content;
+}
+.prodName{
+    font-weight: 500;
+}
+.prodPrice{
+    font-size: 1em;
+}
+
+.productCard:hover .prodName{
+    color: #006cb4;
+}
+.productCard:hover .prodPrice{
+    color: #006cb4;
+}
+
+
+.productCard.shimmer:hover .prodName::after,.productCard.shimmer:hover .prodPrice::after{
+    width: 0%;
+}
+
+.productCard.shimmer .prodImg{
+    animation : shimmer 2s infinite;
+    background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+    background-size: 1000px 100%;
+    height: 200px;
+}
+.productCard.shimmer .prodName{
+    border-radius: 5px;
+    width: 70%;
+    height: 20px;
+    animation : shimmer 2s infinite;
+    background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+    background-size: 1000px 100%;
+}
+.productCard.shimmer .prodPrice{
+    animation : shimmer 2s infinite;
+    background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+    background-size: 1000px 100%;
+    border-radius: 5px;
+    width: 40%;
+    height: 15px;
+}
+.productCard.shimmer .shimmerAdd{
+    animation : shimmer 2s infinite;
+    background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+    background-size: 1000px 100%;
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 5px;
+    height: 30px;
+}
+
+.animate {
+    animation : shimmer 2s infinite;
+    background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+    background-size: 1000px 100%;
+ }
+
+ .productCard .prodDetWrap{
+    display: flex;
+    flex-direction: column;
+    max-height: 170px;
+    flex: 1;
+}
+.productCard .spacer{
+    flex: 1;
+}
+@keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+
+.productCard .soulBound{
+    border-radius: 20px;
+    border: 1px #006cb4 solid;
+    font-size: 0.7em;
+    font-weight: 500;
+    padding: 2px 6px;
+    margin-left: 7px;
+}

@@ -1,0 +1,252 @@
+nav {
+    display: flex;
+    padding: 0 0px;
+    background-color: #027CD5;
+    font-size: 0.9rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    min-height: 70px;
+    z-index: 9998;
+    white-space: nowrap;
+}
+
+nav a:focus {
+    color: #eba0bc;
+}
+
+nav .left img {
+    width: 2.85em;
+}
+
+nav .left {
+    width: 50%;
+}
+
+nav .right img {
+    width: 1.8em;
+    cursor: pointer;
+}
+
+nav .item.navSearch img {
+    width: 1.2em;
+}
+
+nav .item.navSearch {
+    background-color: white;
+    box-sizing: border-box;
+    width: 100%;
+    margin-left: 30px;
+    border-radius: 2px;
+    padding: 0px 15px;
+    padding-right: 13.5px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 23%);
+}
+
+.item.item.navSearch i{
+    color: #027CD5;
+    font-size: 1.2em;
+}
+.item.navSearch input {
+    border: none;
+    width: 100%;
+    padding-right: 5px;
+    padding: 12px 5px;
+    font-family: 'Poppins';
+}
+
+input:focus {
+    outline: none;
+}
+
+nav .item {
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: flex;
+    font-weight: 500;
+}
+
+nav .item img {
+    transition: all 0.2s ease;
+}
+
+nav .item:hover {
+    color: #ffde14;
+    transition-delay: 0s;
+}
+
+nav .item:hover a {
+    color: #ffde14;
+}
+
+nav .right .item.cartNav:hover img {
+    filter: invert(74%) sepia(13%) saturate(882%) hue-rotate(288deg) brightness(103%) contrast(97%);
+}
+
+nav .left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav .left .logoNav {
+    margin-left: 0;
+    display: flex;
+}
+
+nav .right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 50px;
+}
+
+nav a {
+    text-decoration: none;
+    color:white;
+    transition: color 0.2s ease;
+}
+
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #54605F;
+    opacity: 1;
+    /* Firefox */
+}
+
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #54605F;
+}
+
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #54605F;
+}
+
+.cartWrap {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.cartIndicator {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    right: -9px;
+    z-index: 9999;
+    top: -9px;
+    height: 20px;
+    background-color: #FB7979;
+}
+
+.hide {
+    visibility: hidden;
+    display: none;
+}
+
+.show {
+    visibility: visible;
+    display: flex;
+}
+
+.item.navSearch.stretch {
+    flex: 1 1;
+    justify-content: space-between;
+    max-width: 40%;
+}
+
+.item.navSearch.stretch input {
+    flex: 1 1;
+}
+
+
+.mobileNav {
+    width: 100%;
+    height: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transform-origin: top right;
+    visibility: hidden;
+    z-index: 9999;
+    transform: scale(0) translate(50%, -50%);
+    background-color: #FFFBFB;
+    transition: all 0.7s ease;
+    border-radius: 100%;
+}
+
+.mobileNavList {
+    width: 100%;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    visibility: hidden;
+    z-index: 9999;
+    transition: all 0.7s ease;
+}
+
+.mobileNavList .item {
+    font-size: 1.4em;
+    margin-inline: 0;
+    transform: translateY(80%);
+    transform: all 0.4s ease;
+    transition-delay: 0s;
+    opacity: 0;
+}
+
+.mobileNav.expanded+.mobileNavList .item {
+    transform: translateY(0%);
+    transition-delay: 0.2s;
+    opacity: 1;
+
+}
+
+.mobileNavList h1 {
+    font-family: 'Sacramento', cursive;
+    font-size: 2.5rem;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 300;
+}
+
+.mobileNav.expanded {
+    transform: scale(5) translate(50%, -50%);
+    visibility: visible;
+}
+
+.mobileNav.expanded+.mobileNavList {
+    visibility: visible;
+}
+
+.mobileNav+.mobileNavList h1 {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    transition-delay: 0s;
+}
+
+.mobileNavList .itemWrap {
+    overflow: hidden;
+    margin: 30px 0;
+}
+
+.mobileNav.expanded+.mobileNavList h1 {
+    opacity: 1;
+    transition-delay: 0.15s;
+}
+
+nav .right .crossExpanded {
+    width: 1.5em;
+}

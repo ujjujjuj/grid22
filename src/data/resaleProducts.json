@@ -1,0 +1,69 @@
+{
+    "data": [
+        {
+            "name": "Resale Apple iPad Air 2020 512 GB Space Grey",
+            "features": [
+                "6th generation",
+                "512 GB ROM",
+                "Wifi Only",
+                "10.2 Inch Retina Display",
+                "1 Year Warranty"
+            ],
+            "price": "48999",
+            "isSoulbound": false,
+            "image": "https://rukminim1.flixcart.com/image/832/832/ktop5e80/tablet/6/o/s/mk2p3hn-a-apple-original-imag6yy8deumbvxz.jpeg?q=70"
+        },
+        {
+            "name": "Resale Apple iPad Pro 512 GB Silver",
+            "features": [
+                "9th generation",
+                "512 GB ROM",
+                "Wifi with cellular",
+                "13 Inch Retina Display",
+                "2 Year Warranty"
+            ],
+            "price": "89999",
+            "isSoulbound": false,
+            "image": "https://rukminim1.flixcart.com/image/832/832/kohigsw0/tablet/v/i/6/mhqt3hn-a-apple-original-imag2xddxwgg8fer.jpeg?q=70"
+        },
+        {
+            "name": "Resale HP 1000 Wired Optical Mouse  (USB 3.0, USB 2.0, Black)",
+            "features": [
+                "Supports Windows 7, 8, 10",
+                "Black Color",
+                "Dimensions: 10cm x 3.95cm x 5.85cm",
+                "Weight: 70 gram",
+                "1 Year Warranty"
+            ],
+            "price": "1299",
+            "isSoulbound": true,
+            "image": "https://rukminim1.flixcart.com/image/832/832/jrkyfm80/mouse/h/u/f/hp-1000-original-imafd3jqy5sygn2s.jpeg?q=70"
+        },
+        {
+            "name": "Fire-Boltt Talk Bluetooth Calling Smartwatch  (Black Strap, 46)",
+            "features": [
+                "Bluetooth Calling : Answer and make calls with Bluetooth directly from your watch",
+                "3D HD Display : 1.28 Full Circle 3D HD bevel curved glass",
+                "Comprehensive Health Data : Track your SPO2, Blood Pressure, Heart Rate",
+                "With Call Function",
+                "Touchscreen",
+                "Battery Runtime: Upto 10 days"
+            ],
+            "price": "1999",
+            "isSoulbound": true,
+            "image": "https://rukminim1.flixcart.com/image/832/832/kpr8k280/smartwatch/y/l/g/bsw004-android-ios-fire-boltt-original-imag3wwa4uk2kwva.jpeg?q=70"
+        }, {
+            "name": "Resale HP 1000 Wired Optical Mouse  (USB 3.0, USB 2.0, Black)",
+            "features": [
+                "Supports Windows 7, 8, 10",
+                "Black Color",
+                "Dimensions: 10cm x 3.95cm x 5.85cm",
+                "Weight: 70 gram",
+                "1 Year Warranty"
+            ],
+            "price": "1299",
+            "isSoulbound": true,
+            "image": "https://rukminim1.flixcart.com/image/832/832/jrkyfm80/mouse/h/u/f/hp-1000-original-imafd3jqy5sygn2s.jpeg?q=70"
+        }
+    ]
+}

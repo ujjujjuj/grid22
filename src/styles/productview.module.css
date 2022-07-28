@@ -1,0 +1,106 @@
+.prodViewWrap{
+    display: flex;
+    background-color: white;
+    margin: 8px;
+    flex-direction: row;
+    box-shadow: 0 1px 8px 0 rgb(0 0 0 / 6%);
+    min-height: 80%;
+    position: relative;
+    padding-bottom: 40px;
+}
+.prodViewWrap .imageWrap{
+    flex : 0 0 45%;
+}
+.prodViewWrap .imageWrap .imgHolder{
+    height: 70%;
+    width: 80%;
+    margin: auto;
+    margin-top: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("https://rukminim1.flixcart.com/image/832/832/kpr8k280/smartwatch/y/l/g/bsw004-android-ios-fire-boltt-original-imag3wwa4uk2kwva.jpeg?q=70");
+}
+
+.prodViewWrap .contentWrap{
+    flex : 0 0 50%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 35px;
+}
+.prodViewWrap .contentWrap h1{
+    font-weight: 500;
+    max-width: 90%;
+    font-size: 1.2em;
+}
+.prodViewWrap .contentWrap h2{
+    font-weight: 600;
+    margin-top: 8px;
+    color: #0e1850;
+}
+.prodViewWrap .contentWrap h3{
+    font-weight: 600;
+    color: #2874f0;
+    margin-top: 8px;
+}
+.prodViewWrap .contentWrap ul{
+    margin-left: 5px;
+    margin-top: 5px;
+    list-style: square;
+    color: #0e1850;
+    list-style-position: inside;
+}
+.prodViewWrap .buyBtn{
+    background: #fb641b;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 20%);
+    border: none;
+    color: white;
+    width: fit-content;
+    padding: 13px 40px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 2px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.prodViewWrap .buyBtn:hover{
+    transform: translatey(-2px);
+}
+.backIcon{
+    position: absolute;
+    font-size: 1.4em;
+    top: 8px;
+    cursor: pointer;
+    color: #027CD5;
+    left: 22px;
+}
+.prodViewWrap .contentWrap p{
+    display: flex;
+    align-items: center;
+    margin-bottom: 7px;
+    color: #fb641b;
+    width: fit-content;
+    font-weight: 500;
+    position: relative;
+}
+
+.prodViewWrap .resaleInfo{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.prodViewWrap .resaleInfo>div{
+    margin-right: 35px;
+}
+.prodViewWrap .resaleInfo h3{
+    color: #0e1850;
+    font-size: 1em;
+}
+
+.prodViewWrap .resaleInfo p{
+    color: #027CD5;
+    font-size: 0.95em;
+    margin-top: 2px;
+}
