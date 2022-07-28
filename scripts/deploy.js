@@ -5,7 +5,7 @@ const path = require("path");
 const main = async () => {
     // console.log(network);
     const Token = await ethers.getContractFactory("FlipkartItem");
-
+    const [owner] = await ethers.getSigners();
     const hardhatToken = await Token.deploy();
 
     await hardhatToken.deployed();
@@ -16,6 +16,7 @@ const main = async () => {
         path.join(__dirname, "../src/data", `${network.name}.json`),
         JSON.stringify(
             {
+                owner: owner.address,
                 address: hardhatToken.address,
             },
             null,
@@ -23,7 +24,10 @@ const main = async () => {
         )
     );
 
-    fs.copyFileSync(path.join(__dirname, "../artifacts/contracts/FlipkartItem.sol/FlipkartItem.json"), path.join(__dirname, "../src/data/FlipkartItem.json"));
+    fs.copyFileSync(
+        path.join(__dirname, "../artifacts/contracts/FlipkartItem.sol/FlipkartItem.json"),
+        path.join(__dirname, "../src/data/FlipkartItem.json")
+    );
 };
 
 main().catch((e) => {

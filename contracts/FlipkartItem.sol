@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 // TODO : add reenrtrant guard
 
-contract Flip is ERC721, Ownable {
+contract FlipkartItem is ERC721, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _itemIds;
 

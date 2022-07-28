@@ -34,7 +34,7 @@ const products = [
 
 describe("Flipkart Item", () => {
     const deployTokenFixture = async () => {
-        const Token = await ethers.getContractFactory("Flip");
+        const Token = await ethers.getContractFactory("FlipkartItem");
         const [owner, addr1, addr2] = await ethers.getSigners();
 
         const hardhatToken = await Token.deploy();
