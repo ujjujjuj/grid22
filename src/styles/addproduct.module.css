@@ -1,0 +1,116 @@
+.prodViewWrap{
+    display: flex;
+    background-color: white;
+    margin: 8px;
+    flex-direction: row;
+    box-shadow: 0 1px 8px 0 rgb(0 0 0 / 6%);
+    position: relative;
+    padding: 20px;
+}
+
+.formWrap{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.formWrap > input:not(.featureInput){
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 13px;
+    font-family: 'Poppins';
+    border-radius: 4px;
+    border: 1.5px solid #e1e1e1;
+}
+
+.formWrap .addFeaturesWrap{
+    display: flex;
+    flex-direction: row;
+    border: 1.5px solid #e1e1e1;
+    padding: 13px;
+    flex-wrap: wrap;
+    width: 100%;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    padding-bottom: 5;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+.formWrap .featureInput{
+    border: none;
+    width: 100%;
+    font-family: 'Poppins';
+}
+.addFeaturesWrap .featureWrap{
+    box-shadow: 0 1px 3px rgb(50 50 93 / 25%), 0 1px 0 rgb(0 0 0 / 2%);
+    background-color: #fafafa;
+    margin-block: 10px;
+    padding: 9px 10px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    gap:12px;
+    margin-right: 14px;
+    font-size: 0.9em;
+}
+
+.addFeaturesWrap .featureWrap i{
+    cursor: pointer;
+}
+
+.formWrap input.priceInput{
+    width: 49.5%;
+}
+
+.formWrap input.imageInput{
+    width: 49.5%;
+    margin-left: 1%;
+}
+.formWrap input[type='checkbox']{
+    width: fit-content;
+}
+.formWrap .soulboundWrap{
+    user-select: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+}
+
+.formWrap .submit{
+    cursor: pointer;
+    padding: 14.5px;
+   background-color: #fb641b;
+   border-radius: 4px;
+   font-weight: 600;
+   border: none;
+   color: white;
+   transition: all 0.2s ease;
+   width: fit-content;
+   padding-inline: 100px;
+   margin-top: 20px;
+   font-size: 13px;
+}
+
+.formWrap .submit:hover{
+   transform: translateY(-2px);
+}
+
+.formWrap select{
+    width: 49.5%;
+    margin-bottom: 5px;
+    padding: 13px;
+    font-family: 'Poppins';
+    border-radius: 4px;
+    border: 1.5px solid #e1e1e1;
+}
+.formWrap select:nth-child(2){
+    margin-right: 1%;
+}

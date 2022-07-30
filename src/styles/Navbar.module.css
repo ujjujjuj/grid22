@@ -78,7 +78,7 @@ nav .item:hover {
     transition-delay: 0s;
 }
 
-nav .item:hover a {
+nav .right div:hover {
     color: #ffde14;
 }
 
@@ -102,6 +102,8 @@ nav .right {
     align-items: center;
     justify-content: center;
     margin-right: 50px;
+    color: white;
+    cursor: pointer;
 }
 
 nav a {

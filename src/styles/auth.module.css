@@ -8,6 +8,17 @@
   padding-top: 10em;
 }
 
+.authSection .headerWrap{
+  display: flex;
+  color: white;
+  align-items: center;
+  font-size: 1.4em;
+  margin-bottom: 30px;
+  font-weight: 500;
+  justify-content: center;
+  gap: 17px;
+}
+
 .authSection .flipLogo {
   width: 200px;
   margin-bottom: 2em;
@@ -17,9 +28,12 @@
   display: flex;
   align-items: center;
   flex-direction: column-reverse;
-
 }
 
+.authSection .metaWrap a{
+  color: white;
+  margin-top: 10px;
+}
 .authSection .metaWrap img {
   margin-top: 20px;
   animation: wiggle 0.3s linear infinite;

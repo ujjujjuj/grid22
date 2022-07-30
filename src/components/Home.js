@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/auth";
 import styles from "../styles/home.module.css";
@@ -6,24 +6,19 @@ import MyAccount from "./Account";
 import Navbar from "./Navbar";
 import OrderHistory from "./Orders";
 import Products from "./Products";
-import ProductView from "./ProductView";
-import { ethers } from "ethers";
-import contractInfo from "../data/FlipkartItem.json";
-import contractAddress from "../data/localhost.json";
 
 const UserHome = () => {
-    const { user, logoutUser } = useAuth();
+    const { user, logoutUser, web3Data, setContractDetails } = useAuth();
     const navigate = useNavigate();
     const [menuState, setMenuState] = useState(0);
-    const contract = useRef();
 
     useEffect(() => {
-        if (!user) navigate("/login");
-    }, [user]);
-
-    useEffect(() => {
-
+        setContractDetails();
     }, []);
+
+    useEffect(() => {
+        if (user.isAdmin) navigate("/admin");
+    }, [user]);
 
     const getDivToRender = (state) => {
         if (state === 0) return <Products resale={false} />;
@@ -33,8 +28,8 @@ const UserHome = () => {
     };
 
     window.ethereum.on("accountsChanged", async (value) => {
-        if (value === "") {
-            logoutUser();
+        if (value.length === 0) {
+            navigate("/login");
         }
     });
 
@@ -54,7 +49,7 @@ const UserHome = () => {
                             }}
                         >
                             <div className={styles.menuIcon}>
-                                <i className="fa-solid fa-shop"></i>
+                                <i class="fa-solid fa-shop"></i>
                             </div>
                             <p>Products</p>
                         </div>
@@ -65,7 +60,7 @@ const UserHome = () => {
                             }}
                         >
                             <div className={styles.menuIcon}>
-                                <i className="fa-solid fa-rectangle-list"></i>
+                                <i class="fa-solid fa-rectangle-list"></i>
                             </div>
                             <p>Resale Items</p>
                         </div>
@@ -75,7 +70,7 @@ const UserHome = () => {
                                 if (menuState !== 2) setMenuState(2);
                             }}
                         >
-                            <i className="fa-solid fa-clock-rotate-left"></i>
+                            <i class="fa-solid fa-clock-rotate-left"></i>
                             <p>Order History</p>
                         </div>
                         <div
@@ -85,7 +80,7 @@ const UserHome = () => {
                             }}
                         >
                             <div className={styles.menuIcon}>
-                                <i className="fa-solid fa-gear"></i>
+                                <i class="fa-solid fa-gear"></i>
                             </div>
                             <p>My Account</p>
                         </div>
