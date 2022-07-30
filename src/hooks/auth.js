@@ -3,6 +3,7 @@ import contractInfo from "../data/FlipkartItem.json";
 import contractAddress from "../data/localhost.json";
 import { ethers } from "ethers";
 
+
 export const AuthContext = createContext({ isLoggedIn: false });
 export const useAuth = () => useContext(AuthContext);
 
@@ -38,9 +39,10 @@ const useProvideAuth = () => {
         await provider.send("eth_requestAccounts", []);
         const userAddress = await provider.getSigner().getAddress();
         const contract = new ethers.Contract(contractAddress.address, contractInfo.abi, provider.getSigner());
+        
         setWeb3Data({ provider, contract });
-
         setUser((user) => ({ ...user, isMetamask: true, address: userAddress }));
+
         window.ethereum.on("accountsChanged", connectMetamask);
     };
 

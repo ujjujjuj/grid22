@@ -11,7 +11,7 @@ import Warranty from "./Warranty";
 import contractAddress from "../data/localhost.json";
 
 const Admin = () => {
-    const { user } = useAuth();
+    const { user, connectMetamask } = useAuth();
     const navigate = useNavigate();
 
     const getDivToRender = (state) => {
@@ -21,7 +21,11 @@ const Admin = () => {
     };
 
     useEffect(() => {
-        if ((user.address !== contractAddress.owner)) navigate("/");
+        if(!user.isLoggedIn) navigate("/login");
+        if (!user.isMetamask) connectMetamask();
+        if (user.address !== contractAddress.owner) {
+            navigate("/");
+        }
     }, [user]);
 
     const [menuState, setMenuState] = useState(0);
