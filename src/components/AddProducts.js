@@ -1,26 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "../styles/addproduct.module.css";
 import { ethers } from "ethers";
 import { useAuth } from "../hooks/auth";
-import FileUploader from "../hooks/fileUploader";
-
-
-
-
 
 const AddProduct = () => {
     const [formData, setFormData] = useState({
         pname: "",
         features: [],
-        price: "",
+        price: "0.001",
         isSoulbound: false,
-        imageUrl: "",
-        warranty: "",
+        uploaded: false,
+        warranty: "1",
+        imageId: "",
     });
     const [features, setFeatures] = useState("");
 
     const { web3Data } = useAuth();
     const [selectedFile, setSelectedFile] = useState("");
+    const fileRef = useRef();
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
@@ -40,33 +37,43 @@ const AddProduct = () => {
 
     useEffect(() => {
         console.log(formData);
+        if (formData.imageId.length > 0 && !formData.uploaded) uploadData();
     }, [formData]);
 
-    const uploadImage = async ()=>{
-        const formDataE  = new FormData();
-        formDataE.append("name",formData.pname)
-        formDataE.append("desc",formData.pname)
-        formDataE.append("file",selectedFile)
-        let req = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/upload/image`, {
+    const uploadImage = async () => {
+        const formData = new FormData();
+        formData.append("file", fileRef.current.files[0]);
+        let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/upload/image`, {
             method: "POST",
-            body: formDataE
-            });
-        let res = await req.json();
-        console.log(res)
-    }
+            body: formData,
+        });
+        let data = await res.json();
+        // let data = { imageId: "42" };
+        setFormData((oldFD) => ({ ...oldFD, imageId: data.imageId }));
+    };
 
     const uploadData = async () => {
-        // const itemId = (await web3Data.contract.totalItems()).toNumber();
-        // // upload to db with this item id
-        // const itemURI = "http://grid.22/product/1";
-        // const warrantySeconds = parseFloat(formData.warranty) * 30 * 24 * 60 * 60;
-        // const weiValue = ethers.utils.parseEther(formData.price);
+        const itemId = (await web3Data.contract.totalItems()).toNumber();
+        // const itemId = Math.floor(Math.random() * 424242);
+        const itemURI = `${process.env.REACT_APP_SERVER_URL}/product/${itemId}`;
+        const warrantySeconds = parseFloat(formData.warranty) * 30 * 24 * 60 * 60;
+        const weiValue = ethers.utils.parseEther(formData.price);
         try {
-            // await web3Data.contract.createItem(itemURI, weiValue, warrantySeconds, formData.isSoulbound);
-           
-            await uploadImage();
-            // alert("Transaction successful!");
-
+            await web3Data.contract.createItem(itemURI, weiValue, warrantySeconds, formData.isSoulbound);
+            await fetch(`${process.env.REACT_APP_SERVER_URL}/api/upload/product`, {
+                method: "POST",
+                body: new URLSearchParams({
+                    itemId,
+                    name: formData.pname,
+                    features: formData.features,
+                    price: formData.price,
+                    isSoulbound: formData.isSoulbound,
+                    warranty: formData.warranty,
+                    imageId: formData.imageId,
+                }),
+            });
+            setFormData((oldFD) => ({ ...oldFD, uploaded: true }));
+            alert("Product uploaded successfully!");
         } catch (e) {
             console.log(e);
             // alert("failed");
@@ -119,15 +126,12 @@ const AddProduct = () => {
                         required
                         value={formData.price}
                         type="number"
-                        step={"0.01"}
+                        step={"0.001"}
                         min={0}
                         onChange={(e) => setFormData((old) => ({ ...old, price: e.target.value }))}
                         className={styles.priceInput}
                     />
-                        <FileUploader
-                        onFileSelectSuccess={(file) => setSelectedFile(file)}
-                        onFileSelectError={({ error }) => alert(error)}
-                            />
+                    <input type="file" ref={fileRef} accept="image/png, image/gif, image/jpeg" />
                     <input
                         name="warr"
                         placeholder="Warranty Period (months)"
@@ -147,7 +151,7 @@ const AddProduct = () => {
                         />
                         <label htmlFor="soulbound">Soulbound</label>
                     </div>
-                    <div className={styles.submit} onClick={uploadData}>
+                    <div className={styles.submit} onClick={uploadImage}>
                         Add Product
                     </div>
                 </form>

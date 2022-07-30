@@ -3,27 +3,21 @@ import contractInfo from "../data/FlipkartItem.json";
 import contractAddress from "../data/localhost.json";
 import { ethers } from "ethers";
 
-
 export const AuthContext = createContext({ isLoggedIn: false });
 export const useAuth = () => useContext(AuthContext);
 
-
-const setUserAddress =  async (address,id)=>{
-    console.log("heiejid")
+const setUserAddress = async (address, id) => {
     let req = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/modifyAddress`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({address:address,id:id})
-        });
+        body: JSON.stringify({ address: address, id: id }),
+    });
     let res = await req.json();
-    if(res.status===1)
-        console.log("done")
-    else
-        console.log("err")
-
-}
+    if (res.status === 1) console.log("done");
+    else console.log("err");
+};
 
 const useProvideAuth = () => {
     const [user, setUser] = useState({ isLoggedIn: false, isMetamask: false });
@@ -56,11 +50,13 @@ const useProvideAuth = () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
         await provider.send("eth_requestAccounts", []);
         const userAddress = await provider.getSigner().getAddress();
-        console.log(userAddress)
+        console.log(userAddress);
         const contract = new ethers.Contract(contractAddress.address, contractInfo.abi, provider.getSigner());
-        if(user.address!==userAddress) await setUserAddress(userAddress,user._id)
+        if (user.address !== userAddress) await setUserAddress(userAddress, user._id);
+
         setWeb3Data({ provider, contract });
         setUser((user) => ({ ...user, isMetamask: true, address: userAddress }));
+        
         window.ethereum.on("accountsChanged", connectMetamask);
     };
 
@@ -87,4 +83,3 @@ const useProvideAuth = () => {
 export const AuthProvider = ({ children }) => (
     <AuthContext.Provider value={useProvideAuth()}>{children}</AuthContext.Provider>
 );
-
