@@ -9,14 +9,14 @@ export const useAuth = () => useContext(AuthContext);
 
 
 const setUserAddress =  async (address,id)=>{
-    console.log("hello")
+    console.log("heiejid")
     let req = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/modifyAddress`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({address:address,id:id})
-    });
+        });
     let res = await req.json();
     if(res.status===1)
         console.log("done")
@@ -61,7 +61,6 @@ const useProvideAuth = () => {
         
         setWeb3Data({ provider, contract });
         setUser((user) => ({ ...user, isMetamask: true, address: userAddress }));
-
         window.ethereum.on("accountsChanged", connectMetamask);
         await setUserAddress(userAddress,user._id)
     };

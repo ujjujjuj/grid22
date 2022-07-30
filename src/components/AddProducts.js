@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import styles from "../styles/addproduct.module.css";
 import { ethers } from "ethers";
 import { useAuth } from "../hooks/auth";
+import FileUploader from "../hooks/fileUploader";
+
+
+
+
 
 const AddProduct = () => {
     const [formData, setFormData] = useState({
@@ -15,6 +20,7 @@ const AddProduct = () => {
     const [features, setFeatures] = useState("");
 
     const { web3Data } = useAuth();
+    const [selectedFile, setSelectedFile] = useState("");
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
@@ -36,18 +42,34 @@ const AddProduct = () => {
         console.log(formData);
     }, [formData]);
 
+    const uploadImage = async ()=>{
+        const formDataE  = new FormData();
+        formDataE.append("name",formData.pname)
+        formDataE.append("desc",formData.pname)
+        formDataE.append("file",selectedFile)
+        let req = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/upload/image`, {
+            method: "POST",
+            body: formDataE
+            });
+        let res = await req.json();
+        console.log(res)
+    }
+
     const uploadData = async () => {
-        const itemId = (await web3Data.contract.totalItems()).toNumber();
-        // upload to db with this item id
-        const itemURI = "http://grid.22/product/1";
-        const warrantySeconds = parseFloat(formData.warranty) * 30 * 24 * 60 * 60;
-        const weiValue = ethers.utils.parseEther(formData.price);
+        // const itemId = (await web3Data.contract.totalItems()).toNumber();
+        // // upload to db with this item id
+        // const itemURI = "http://grid.22/product/1";
+        // const warrantySeconds = parseFloat(formData.warranty) * 30 * 24 * 60 * 60;
+        // const weiValue = ethers.utils.parseEther(formData.price);
         try {
-            await web3Data.contract.createItem(itemURI, weiValue, warrantySeconds, formData.isSoulbound);
-            alert("Transaction successful!");
+            // await web3Data.contract.createItem(itemURI, weiValue, warrantySeconds, formData.isSoulbound);
+           
+            await uploadImage();
+            // alert("Transaction successful!");
+
         } catch (e) {
             console.log(e);
-            alert("failed");
+            // alert("failed");
         }
     };
 
@@ -102,17 +124,10 @@ const AddProduct = () => {
                         onChange={(e) => setFormData((old) => ({ ...old, price: e.target.value }))}
                         className={styles.priceInput}
                     />
-                    {/* <input
-                        name="img"
-                        placeholder="Image URL"
-                        required
-                        value={formData.imageUrl}
-                        onChange={(e) => setFormData((old) => ({ ...old, imageUrl: e.target.value }))}
-                        className={styles.imageInput}
-                    /> */}
-                     <input type="file" id="image" 
-                                             className={styles.imageInput}
-                       name="image" value="" required></input>
+                        <FileUploader
+                        onFileSelectSuccess={(file) => setSelectedFile(file)}
+                        onFileSelectError={({ error }) => alert(error)}
+                            />
                     <input
                         name="warr"
                         placeholder="Warranty Period (months)"
