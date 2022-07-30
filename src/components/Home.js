@@ -6,18 +6,16 @@ import MyAccount from "./Account";
 import Navbar from "./Navbar";
 import OrderHistory from "./Orders";
 import Products from "./Products";
+import contractAddress from "../data/localhost.json";
 
 const UserHome = () => {
-    const { user, logoutUser, web3Data, setContractDetails } = useAuth();
+    const { user, web3Data, connectMetamask } = useAuth();
     const navigate = useNavigate();
     const [menuState, setMenuState] = useState(0);
 
     useEffect(() => {
-        setContractDetails();
-    }, []);
-
-    useEffect(() => {
-        if (user.isAdmin) navigate("/admin");
+        if (!user.isLoggedIn) connectMetamask();
+        if (user.address === contractAddress.owner) navigate("/admin");
     }, [user]);
 
     const getDivToRender = (state) => {
@@ -26,12 +24,6 @@ const UserHome = () => {
         if (state === 2) return <OrderHistory />;
         if (state === 3) return <MyAccount />;
     };
-
-    window.ethereum.on("accountsChanged", async (value) => {
-        if (value.length === 0) {
-            navigate("/login");
-        }
-    });
 
     return (
         <>
@@ -49,7 +41,7 @@ const UserHome = () => {
                             }}
                         >
                             <div className={styles.menuIcon}>
-                                <i class="fa-solid fa-shop"></i>
+                                <i className="fa-solid fa-shop"></i>
                             </div>
                             <p>Products</p>
                         </div>
@@ -60,7 +52,7 @@ const UserHome = () => {
                             }}
                         >
                             <div className={styles.menuIcon}>
-                                <i class="fa-solid fa-rectangle-list"></i>
+                                <i className="fa-solid fa-rectangle-list"></i>
                             </div>
                             <p>Resale Items</p>
                         </div>
@@ -70,7 +62,7 @@ const UserHome = () => {
                                 if (menuState !== 2) setMenuState(2);
                             }}
                         >
-                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <i className="fa-solid fa-clock-rotate-left"></i>
                             <p>Order History</p>
                         </div>
                         <div
@@ -80,7 +72,7 @@ const UserHome = () => {
                             }}
                         >
                             <div className={styles.menuIcon}>
-                                <i class="fa-solid fa-gear"></i>
+                                <i className="fa-solid fa-gear"></i>
                             </div>
                             <p>My Account</p>
                         </div>

@@ -3,8 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/auth";
 import classnames from "classnames";
 import { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom'
-import useWindowDimensions from "../hooks/windowDimensions";
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
     const { user, logoutUser } = useAuth();
@@ -14,14 +13,8 @@ const Navbar = () => {
     const checkEnter = (e) => {
         if (e.key === "Enter") {
             setSearch("");
-            // navigate(`/shop?q=${search}`);
         }
     };
-
-    useEffect(()=>{
-        console.log(user)
-    },[user])
-
     return (
         <>
             <nav className={location.pathname.includes("login") ? styles.hide : styles.show}>
@@ -38,22 +31,20 @@ const Navbar = () => {
                     </div>
                 </div>
                 <div className={styles.right}>
-                    <div onClick={() => {
-                        if (user.isLoggedIn) {
-                            logoutUser()
-                            navigate("/login")
-                        } else {
-                            navigate("/login")
-                        }
-                    }
-                    }>
+                    <div
+                        onClick={() => {
+                            if (user.isLoggedIn) {
+                                logoutUser();
+                                navigate("/login");
+                            } else {
+                                navigate("/login");
+                            }
+                        }}
+                    >
                         {user.isLoggedIn ? "Logout" : "Login"}
                     </div>
                 </div>
-
-
             </nav>
-
         </>
     );
 };

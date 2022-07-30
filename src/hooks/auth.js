@@ -1,17 +1,17 @@
 import { useState, useContext, createContext, useEffect } from "react";
 import contractInfo from "../data/FlipkartItem.json";
 import contractAddress from "../data/localhost.json";
-import {ethers} from "ethers"
+import { ethers } from "ethers";
 
 export const AuthContext = createContext({ isLoggedIn: false });
 export const useAuth = () => useContext(AuthContext);
 
 const useProvideAuth = () => {
-    const [user, setUser] = useState({ isLoggedIn: false , isMetamask: false});
+    const [user, setUser] = useState({ isLoggedIn: false, isMetamask: false });
     const [web3Data, setWeb3Data] = useState({ provider: null, contract: null });
 
     const loginUser = (data) => {
-        let newUser = { ...data, isLoggedIn: true, isAdmin: false };
+        let newUser = { ...data, isLoggedIn: true };
         setUser(newUser);
         localStorage.setItem("user", JSON.stringify(newUser));
     };
@@ -22,55 +22,45 @@ const useProvideAuth = () => {
         localStorage.setItem("user", JSON.stringify(newUser));
     };
 
-    const setMetaMask = (address)=>{
-        setUser((user)=>{
+    const setMetaMask = (address) => {
+        setUser((user) => {
             let old = user;
-            return ({...old,meta:address})
-        })
-    }
+            return { ...old, meta: address };
+        });
+    };
 
-    const setContractDetails = async ()=>{
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        const userAddress = await provider.getSigner().getAddress();
-        const contract = new ethers.Contract(contractAddress.address, contractInfo.abi, provider);
-        setWeb3Data({ provider, contract });
-        console.log(userAddress)
-        console.log(contractAddress.owner) 
-        if(userAddress === contractAddress.owner){
-            setUser((user)=>{
-                let oldUser = user;
-                return ({...oldUser,isAdmin:true})
-            })
+    const connectMetamask = async () => {
+        if (!window.ethereum) {
+            alert("Get MetaMask!");
+            return;
         }
-    };
-
-    const connectToWallet = async () => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
         await provider.send("eth_requestAccounts", []);
         const userAddress = await provider.getSigner().getAddress();
-        const contract = new ethers.Contract(contractAddress.address, contractInfo.abi, provider);
-        setUser(userAddress);
+        const contract = new ethers.Contract(contractAddress.address, contractInfo.abi, provider.getSigner());
         setWeb3Data({ provider, contract });
+
+        setUser((user) => ({ ...user, isMetamask: true, address: userAddress }));
+        window.ethereum.on("accountsChanged", connectMetamask);
     };
+
+    useEffect(() => {
+        console.log("Address:", user.address);
+    }, [user.address]);
 
     useEffect(() => {
         let loadedUser = JSON.parse(localStorage.getItem("user"));
         if (loadedUser === null) return localStorage.setItem("user", JSON.stringify(user));
         if (loadedUser.isLoggedIn) return loginUser(loadedUser);
-    },[]);
-
-    useEffect(() => {
-
-    }, [user]);
+    }, []);
 
     return {
         user,
         loginUser,
         logoutUser,
-        setContractDetails,
         setMetaMask,
-        web3Data
+        web3Data,
+        connectMetamask,
     };
 };
 
