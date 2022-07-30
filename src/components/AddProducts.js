@@ -102,14 +102,17 @@ const AddProduct = () => {
                         onChange={(e) => setFormData((old) => ({ ...old, price: e.target.value }))}
                         className={styles.priceInput}
                     />
-                    <input
+                    {/* <input
                         name="img"
                         placeholder="Image URL"
                         required
                         value={formData.imageUrl}
                         onChange={(e) => setFormData((old) => ({ ...old, imageUrl: e.target.value }))}
                         className={styles.imageInput}
-                    />
+                    /> */}
+                     <input type="file" id="image" 
+                                             className={styles.imageInput}
+                       name="image" value="" required></input>
                     <input
                         name="warr"
                         placeholder="Warranty Period (months)"
