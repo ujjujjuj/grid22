@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -15,6 +16,10 @@ module.exports = {
         },
         hardhat: {
             chainId: 1337,
+        },
+        polygontest: {
+            url: `https://rpc-mumbai.maticvigil.com`,
+            accounts: [process.env.WALLET_PRIVATE_KEY],
         },
     },
     abiExporter: {

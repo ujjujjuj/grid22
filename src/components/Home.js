@@ -22,10 +22,7 @@ const UserHome = () => {
     }, [user]);
 
     useEffect(() => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-        contract.current = new ethers.Contract(contractAddress.address, contractInfo.abi, provider);
-        window.contract = contract.current;
-        console.log(contract.current);
+
     }, []);
 
     const getDivToRender = (state) => {

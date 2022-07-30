@@ -38,7 +38,7 @@ const Navbar = () => {
                             onChange={(e) => setSearch(e.target.value)}
                             onKeyDown={checkEnter}
                         />
-                       <i class="fas fa-search"></i>
+                       <i className="fas fa-search"></i>
                     </div>
                 </div>
             

@@ -97,7 +97,7 @@ describe("Flipkart Item", () => {
         it("Should mint an item", async () => {
             const { hardhatToken, addr1 } = await loadFixture(createItemFixture);
 
-            const txnInfo = await hardhatToken.connect(addr1).buyItem(0, products[0].serialNumber, {
+            const txnInfo = await hardhatToken.connect(addr1).buyItem(0, products[0].serialNumber, 0, {
                 value: products[0].value,
             });
             const block = await ethers.provider.getBlock(txnInfo.blockNumber);
@@ -108,24 +108,37 @@ describe("Flipkart Item", () => {
             );
             expect(item.creationTime).to.equal(block.timestamp);
             expect(await ethers.provider.getBalance(hardhatToken.address)).to.equal(products[0].value);
+            expect(await hardhatToken.plusCoins(addr1.address)).to.equal(products[0].value / 1e12);
+        });
+
+        it("Should be able to buy items using game tokens", async () => {
+            const { hardhatToken, addr1 } = await loadFixture(createItemFixture);
+
+            await hardhatToken.connect(addr1).buyItem(0, products[0].serialNumber, 0, {
+                value: products[0].value,
+            });
+
+            await hardhatToken.connect(addr1).buyItem(1, products[1].serialNumber, 1e4, {
+                value: products[0].value,
+            });
         });
 
         it("Should fail if item does not exist", async () => {
             const { hardhatToken, addr1 } = await loadFixture(createItemFixture);
             await expect(
-                hardhatToken.connect(addr1).buyItem(42, "42", { value: products[0].value })
+                hardhatToken.connect(addr1).buyItem(42, "42", 0, { value: products[0].value })
             ).to.be.revertedWith("Item does not exist!");
         });
 
         it("Should fail if serial number exists", async () => {
             const { hardhatToken, addr1, addr2 } = await loadFixture(createItemFixture);
 
-            await hardhatToken.connect(addr1).buyItem(0, products[0].serialNumber, {
+            await hardhatToken.connect(addr1).buyItem(0, products[0].serialNumber, 0, {
                 value: products[0].value,
             });
 
             await expect(
-                hardhatToken.connect(addr2).buyItem(0, products[0].serialNumber, {
+                hardhatToken.connect(addr2).buyItem(0, products[0].serialNumber, 0, {
                     value: products[0].value,
                 })
             ).to.be.revertedWith("Serial number exists!");
@@ -134,8 +147,15 @@ describe("Flipkart Item", () => {
         it("Should fail if incorrect amount of ether is sent", async () => {
             const { hardhatToken, addr1 } = await loadFixture(createItemFixture);
             await expect(
-                hardhatToken.connect(addr1).buyItem(0, products[0].serialNumber, { value: 0 })
+                hardhatToken.connect(addr1).buyItem(0, products[0].serialNumber, 0, { value: 0 })
             ).to.be.revertedWith("Incorrect amount of ether sent!");
+        });
+
+        it("Should fail if user does not have enough tokens", async () => {
+            const { hardhatToken, addr1 } = await loadFixture(createItemFixture);
+            await expect(hardhatToken.connect(addr1).buyItem(0, products[0].serialNumber, 10000)).to.be.revertedWith(
+                "User does not have enough tokens!"
+            );
         });
     });
 
@@ -144,10 +164,10 @@ describe("Flipkart Item", () => {
 
         await createItemData.hardhatToken
             .connect(createItemData.addr1)
-            .buyItem(0, products[0].serialNumber, { value: products[0].value });
+            .buyItem(0, products[0].serialNumber, 0, { value: products[0].value });
         await createItemData.hardhatToken
             .connect(createItemData.addr2)
-            .buyItem(1, products[1].serialNumber, { value: products[1].value });
+            .buyItem(1, products[1].serialNumber, 0, { value: products[1].value });
 
         return createItemData;
     };
@@ -156,10 +176,7 @@ describe("Flipkart Item", () => {
         it("Should transfer an item to another address", async () => {
             const { hardhatToken, addr1, addr2 } = await loadFixture(buyItemFixture);
 
-            await hardhatToken
-                .connect(addr1)
-                .setResaleValue(products[0].serialNumber, ethers.utils.parseEther("0.015"));
-            await hardhatToken.connect(addr1).putForResale(products[0].serialNumber);
+            await hardhatToken.connect(addr1).putForResale(products[0].serialNumber, ethers.utils.parseEther("0.015"));
             await hardhatToken
                 .connect(addr2)
                 .buyResaleItem(products[0].serialNumber, { value: ethers.utils.parseEther("0.015") });
@@ -170,25 +187,18 @@ describe("Flipkart Item", () => {
             expect((await hardhatToken.purchasedItems(products[0].serialNumber)).availableForResale).to.equal(false);
         });
 
-        it("Should fail if setResaleValue is called by another address", async () => {
-            const { hardhatToken, addr2 } = await loadFixture(buyItemFixture);
-            await expect(
-                hardhatToken.connect(addr2).setResaleValue(products[0].serialNumber, ethers.utils.parseEther("0.015"))
-            ).to.be.revertedWith("Unauthorized to set value!");
-        });
-
         it("Should fail if putForResale is called by another address", async () => {
             const { hardhatToken, addr2 } = await loadFixture(buyItemFixture);
-            await expect(hardhatToken.connect(addr2).putForResale(products[0].serialNumber)).to.be.revertedWith(
-                "Unauthorized to resell item!"
-            );
+            await expect(
+                hardhatToken.connect(addr2).putForResale(products[0].serialNumber, ethers.utils.parseEther("0.015"))
+            ).to.be.revertedWith("Unauthorized to resell item!");
         });
 
         it("Should fail if item is soulbound", async () => {
             const { hardhatToken, addr2 } = await loadFixture(buyItemFixture);
-            await expect(hardhatToken.connect(addr2).putForResale(products[1].serialNumber)).to.be.revertedWith(
-                "Cannot resell, item is soulbound!"
-            );
+            await expect(
+                hardhatToken.connect(addr2).putForResale(products[1].serialNumber, ethers.utils.parseEther("0.015"))
+            ).to.be.revertedWith("Cannot resell, item is soulbound!");
         });
     });
 
@@ -206,7 +216,7 @@ describe("Flipkart Item", () => {
 
             expect(await hardhatToken.getItemWarrantyLength(products[0].serialNumber)).to.equal(2);
 
-            // TODO : implement this using enums
+            // TODO : implement this properly using enums
             expect(Object.values(await hardhatToken.getItemWarranty(products[0].serialNumber, 0))[0]).to.equal(0);
             expect(Object.values(await hardhatToken.getItemWarranty(products[0].serialNumber, 0))[2]).to.equal(
                 block.timestamp

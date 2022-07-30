@@ -19,7 +19,7 @@ const ProductView = ({ product, select, resale }) => {
                     <div className={styles.imgHolder} style={{ backgroundImage: `url('${product.image}')` }}></div>
                 </div>
                 <div className={styles.contentWrap}>
-                    {resale ? <p><i class="fas fa-star"></i>&nbsp;&nbsp;<span>Listed for Resale</span></p> : <></>}
+                    {resale ? <p><i className="fas fa-star"></i>&nbsp;&nbsp;<span>Listed for Resale</span></p> : <></>}
                     <h1>{product.name}</h1>
                     <h2>₹ {product.price.replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}</h2>
                     <h3>Product Details</h3>
@@ -43,7 +43,7 @@ const ProductView = ({ product, select, resale }) => {
                         </div>
                     </div>:<></>}
                     <div className={styles.buyBtn} onClick={buyProduct}>
-                        <i class="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;BUY NOW
+                        <i className="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;BUY NOW
                     </div>
                 </div>
 

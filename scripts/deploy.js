@@ -3,14 +3,19 @@ const fs = require("fs");
 const path = require("path");
 
 const main = async () => {
-    // console.log(network);
+    const [owner, addr1] = await ethers.getSigners();
+
+    console.log("Deploying contract on network", network.name);
+    console.log("Account:", owner.address);
+    console.log("Account balance:", ethers.utils.formatEther(await owner.getBalance()), "ETH");
+
     const Token = await ethers.getContractFactory("FlipkartItem");
-    const [owner] = await ethers.getSigners();
     const hardhatToken = await Token.deploy();
-
+    process.stdout.write("Waiting for contract to get deployed...");
     await hardhatToken.deployed();
+    process.stdout.write(" done\n");
 
-    console.log(`Token deployed at ${hardhatToken.address} on network ${network.name}`);
+    console.log(`Contract address: ${hardhatToken.address}`);
 
     fs.writeFileSync(
         path.join(__dirname, "../src/data", `${network.name}.json`),
@@ -28,6 +33,12 @@ const main = async () => {
         path.join(__dirname, "../artifacts/contracts/FlipkartItem.sol/FlipkartItem.json"),
         path.join(__dirname, "../src/data/FlipkartItem.json")
     );
+
+    // TODO: delte later
+    // await hardhatToken.createItem("prudcturi", ethers.utils.parseEther("0.01"), 314159265, false);
+    // await hardhatToken.connect(addr1).buyItem(0, "ALKEJKLEJLK",0, {
+    //     value: ethers.utils.parseEther("0.01"),
+    // });
 };
 
 main().catch((e) => {

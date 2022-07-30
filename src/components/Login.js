@@ -13,13 +13,8 @@ const connect = async (setUser) => {
 };
 
 export default function Login() {
-    const { user, loginUser } = useAuth();
+    const { user, connectToWallet } = useAuth();
     const navigate = useNavigate();
-
-    const setUser = (addr) => {
-        loginUser(addr);
-        navigate("/");
-    };
 
     useEffect(() => {
         if (user) navigate("/");
@@ -32,7 +27,7 @@ export default function Login() {
             <img src="/assets/images/flipkart-logo.png" className={styles.flipLogo} alt="Flipkart Logo" />
             <div className={styles.metaWrap}>
                 <img src="/assets/images/meta-logo.svg.png" width={100} alt="MetaMask Logo" />
-                <div className={styles.button} onClick={() => connect(setUser)}>
+                <div className={styles.button} onClick={connectToWallet}>
                     Connect to MetaMask
                 </div>
             </div>

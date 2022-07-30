@@ -30,7 +30,8 @@ contract FlipkartItem is ERC721, Ownable {
 
     enum WarrantyReason {
         WEAR_AND_TEAR,
-        THEFT
+        THEFT,
+        WATER_DAMAGE
     }
 
     enum WarrantyOutcome {
@@ -48,6 +49,7 @@ contract FlipkartItem is ERC721, Ownable {
     Item[] public items;
     mapping(string => ItemInfo) public purchasedItems;
     string[] public serialNumbers;
+    mapping(address => uint) public plusCoins;
 
     constructor() ERC721("FlipItem", "FLIP") {}
 
@@ -69,12 +71,20 @@ contract FlipkartItem is ERC721, Ownable {
         _itemIds.increment();
     }
 
-    function buyItem(uint itemId, string memory serialNumber) public payable {
+    function buyItem(
+        uint itemId,
+        string memory serialNumber,
+        uint tokens
+    ) public payable {
         require(itemId < items.length, "Item does not exist!");
         require(!itemExists(serialNumber), "Serial number exists!");
         require(
-            msg.value == items[itemId].value,
+            msg.value + tokens * 1000 gwei == items[itemId].value,
             "Incorrect amount of ether sent!"
+        );
+        require(
+            tokens <= plusCoins[msg.sender],
+            "User does not have enough tokens!"
         );
 
         ItemInfo memory itemInfo;
@@ -87,6 +97,8 @@ contract FlipkartItem is ERC721, Ownable {
         serialNumbers.push(serialNumber);
 
         _mint(msg.sender, hashString(serialNumber));
+        plusCoins[msg.sender] -= tokens;
+        plusCoins[msg.sender] += msg.value / 1e12;
     }
 
     function totalItems() public view returns (uint) {
@@ -103,7 +115,7 @@ contract FlipkartItem is ERC721, Ownable {
         purchasedItems[serialNumber].resaleValue = value;
     }
 
-    function putForResale(string memory serialNumber) public {
+    function putForResale(string memory serialNumber, uint resaleValue) public {
         require(itemExists(serialNumber), "Item does not exist!");
         require(
             msg.sender == getLastOwner(serialNumber),
@@ -115,6 +127,7 @@ contract FlipkartItem is ERC721, Ownable {
         );
 
         purchasedItems[serialNumber].availableForResale = true;
+        purchasedItems[serialNumber].resaleValue = resaleValue;
     }
 
     function buyResaleItem(string memory serialNumber) public payable {
@@ -178,22 +191,17 @@ contract FlipkartItem is ERC721, Ownable {
             ];
     }
 
-    function getItemOwner(string memory serialNumber, uint index)
-        public
-        view
-        returns (address)
-    {
-        require(itemExists(serialNumber), "Item does not exist!");
-        return purchasedItems[serialNumber].ownerHistory[index];
+    function getSerialNumbersLength() public view returns (uint) {
+        return serialNumbers.length;
     }
 
-    function getItemOwnerLength(string memory serialNumber)
+    function getItemOwners(string memory serialNumber)
         public
         view
-        returns (uint)
+        returns (address[] memory)
     {
         require(itemExists(serialNumber), "Item does not exist!");
-        return purchasedItems[serialNumber].ownerHistory.length;
+        return purchasedItems[serialNumber].ownerHistory;
     }
 
     function getItemWarranty(string memory serialNumber, uint index)
@@ -250,5 +258,25 @@ contract FlipkartItem is ERC721, Ownable {
         returns (uint256)
     {
         return uint256(keccak256(abi.encodePacked(serialNumber)));
+    }
+
+    function getAllItems() public view returns (Item[] memory) {
+        return items;
+    }
+
+    function getResaleItems() public view returns (ItemInfo[] memory) {
+        ItemInfo[] memory itemInfos;
+        uint ctr = 0;
+        for (uint i = 0; i < serialNumbers.length; i++) {
+            if (
+                purchasedItems[serialNumbers[i]].availableForResale &&
+                !items[purchasedItems[serialNumbers[i]].itemId].isSoulbound
+            ) {
+                itemInfos[ctr] = (purchasedItems[serialNumbers[i]]);
+                ctr++;
+            }
+        }
+
+        return itemInfos;
     }
 }
