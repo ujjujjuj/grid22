@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+
+
+.regSec {
+    background-color: #027CD5;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.regWrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.regWrap .headerWrap{
+    display: flex;
+    color: white;
+    align-items: center;
+    font-size: 1.4em;
+    margin-bottom: 30px;
+    font-weight: 500;
+    justify-content: center;
+    gap: 17px;
+  }
+  
+  .regWrap .flipLogo {
+    width: 40px;
+  }
+
+
+.regWrap .passWrap{
+    position: relative;
+    margin-bottom: 16px;
+    width: 100%;
+}
+.regWrap .passWrap i{
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    opacity: 0.8;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.passWrap i.fa-eye-slash{
+    right: 14px;
+}
+.regWrap .passWrap input{
+    width: 100%;
+    margin-bottom: 0;  
+}
+.regWrap h2{
+    font-weight: 500;
+    font-size: 1.55em;
+    margin-top: 6px;
+    margin-bottom: 17px;
+}
+
+.regWrap form{
+    width: 25em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.regWrap input{
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 15px;
+     font-family: 'Poppins';
+    border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 13%);
+    border: none;
+}
+.regWrap input[type='submit']{
+     cursor: pointer;
+     padding: 14.5px;
+    background-color: #fb641b;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    color: white;
+    transition: all 0.2s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.regWrap input[type='submit']:hover{
+    transform: translateY(-2px);
+}
+.forgot{
+    text-align: left; 
+    width: 25em;
+}
+
+.forgot a{
+    color: black;
+    font-size: 0.95rem;
+
+}
+
+.regWrap a{
+    color: white;
+}
+
+.login{
+    font-size: 0.95rem;
+    margin-top: 10px;
+    color: white;
+}
+
+.error{
+    color: rgb(250, 188, 188);
+    display: flex;
+    margin-top: 15px;
+    align-items: center;
+    font-weight: 500;
+    justify-content: center;
+}
+.error i{
+    display: flex;
+    margin-right: 7px;
+}

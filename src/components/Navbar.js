@@ -2,35 +2,31 @@ import styles from "../styles/Navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/auth";
 import classnames from "classnames";
-import { useCart } from "../hooks/cart";
 import { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom'
 import useWindowDimensions from "../hooks/windowDimensions";
 
 const Navbar = () => {
-    const { cart, toggleCart, getCartSize } = useCart();
-    const { user } = useAuth();
+    const { user, logoutUser } = useAuth();
     const location = useLocation();
-    const [isNavExpanded, setNavExpanded] = useState(false)
     const navigate = useNavigate();
     const [search, setSearch] = useState("");
-    const { height, width } = useWindowDimensions();
     const checkEnter = (e) => {
         if (e.key === "Enter") {
             setSearch("");
-            navigate(`/shop?q=${search}`);
+            // navigate(`/shop?q=${search}`);
         }
     };
 
-    useEffect(() => {
-    }, [cart]);
-
+    useEffect(()=>{
+        console.log(user)
+    },[user])
 
     return (
         <>
             <nav className={location.pathname.includes("login") ? styles.hide : styles.show}>
                 <div className={styles.left}>
-                <div className={classnames(styles.item, styles.navSearch)}>
+                    <div className={classnames(styles.item, styles.navSearch)}>
                         <input
                             type={"text"}
                             placeholder="Search for products"
@@ -38,11 +34,24 @@ const Navbar = () => {
                             onChange={(e) => setSearch(e.target.value)}
                             onKeyDown={checkEnter}
                         />
-                       <i class="fas fa-search"></i>
+                        <i className="fas fa-search"></i>
                     </div>
                 </div>
-            
-         
+                <div className={styles.right}>
+                    <div onClick={() => {
+                        if (user.isLoggedIn) {
+                            logoutUser()
+                            navigate("/login")
+                        } else {
+                            navigate("/login")
+                        }
+                    }
+                    }>
+                        {user.isLoggedIn ? "Logout" : "Login"}
+                    </div>
+                </div>
+
+
             </nav>
 
         </>
