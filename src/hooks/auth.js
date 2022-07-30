@@ -58,11 +58,10 @@ const useProvideAuth = () => {
         const userAddress = await provider.getSigner().getAddress();
         console.log(userAddress)
         const contract = new ethers.Contract(contractAddress.address, contractInfo.abi, provider.getSigner());
-        
+        if(user.address!==userAddress) await setUserAddress(userAddress,user._id)
         setWeb3Data({ provider, contract });
         setUser((user) => ({ ...user, isMetamask: true, address: userAddress }));
         window.ethereum.on("accountsChanged", connectMetamask);
-        await setUserAddress(userAddress,user._id)
     };
 
     useEffect(() => {
