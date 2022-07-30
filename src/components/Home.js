@@ -14,7 +14,8 @@ const UserHome = () => {
     const [menuState, setMenuState] = useState(0);
 
     useEffect(() => {
-        if (!user.isLoggedIn) connectMetamask();
+        if (!user.isLoggedIn) navigate("/login");
+        if (!user.isMetamask) connectMetamask();
         if (user.address === contractAddress.owner) navigate("/admin");
     }, [user]);
 
