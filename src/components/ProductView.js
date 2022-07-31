@@ -13,7 +13,7 @@ const ProductView = ({ product, select, resale }) => {
 
     const buyProduct = async () => {
         const [etherVal, coinVal] = etherToPay();
-        console.log(ethers.utils.parseEther(etherVal).toNumber(), coinVal);
+        // console.log(ethers.utils.parseEther(etherVal).toNumber(), coinVal);
         if (resale) {
             const tx = await web3Data.contract.buyResaleItem(product.sno, { value: ethers.utils.parseEther(etherVal) });
             console.log(tx);

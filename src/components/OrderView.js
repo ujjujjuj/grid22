@@ -98,6 +98,8 @@ const OrderView = ({ order, select, resale, isResale = true ,isAdmin = false}) =
                     )}
                     <h1>{order.name}</h1>
                     <h2>{order.price} ETH</h2>
+                    {order.isSoulbound ? <div className={styles.soulBound}>Soulbound</div> : <></>}
+
                     <h3>Product Details</h3>
                     <ul>
                         {order.features.map((x, n) => {
@@ -154,7 +156,9 @@ const OrderView = ({ order, select, resale, isResale = true ,isAdmin = false}) =
                     )}
 
                     {isAdmin?<></>:
-                    <div className={`${styles.buyBtn} ${order.resale ? styles.disabled : ""}`} onClick={buyProduct}>
+                    <div className={`${styles.buyBtn} ${order.resale ||order.isSoulbound ? styles.disabled : ""}`} onClick={()=>{
+                        setPopVisible(true)
+                    }}>
                         <i class="fas fa-coins"></i>&nbsp;&nbsp;List for Resale
                     </div>}
                 </div>

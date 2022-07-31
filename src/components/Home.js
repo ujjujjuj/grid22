@@ -23,7 +23,6 @@ const UserHome = () => {
         if (state === 0) return <Products resale={false} />;
         if (state === 1) return <Products resale={true} />;
         if (state === 2) return <OrderHistory />;
-        if (state === 3) return <MyAccount />;
     };
 
     return (
@@ -66,17 +65,7 @@ const UserHome = () => {
                             <i className="fa-solid fa-clock-rotate-left"></i>
                             <p>Order History</p>
                         </div>
-                        <div
-                            className={styles.menuItem}
-                            onClick={() => {
-                                if (menuState !== 3) setMenuState(3);
-                            }}
-                        >
-                            <div className={styles.menuIcon}>
-                                <i className="fa-solid fa-gear"></i>
-                            </div>
-                            <p>My Account</p>
-                        </div>
+                      
                     </div>
                 </div>
                 <div className={styles.rightWrap}>
