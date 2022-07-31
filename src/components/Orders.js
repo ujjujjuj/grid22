@@ -9,12 +9,17 @@ const OrderHistory = ({isAdmin}) => {
     const [selectedProd, setSelectedProd] = useState({});
     const [orders, setOrders] = useState([]);
     const { user } = useAuth();
+    const [init,setInit] = useState(true);
+
 
     useEffect(() => {
         setSelectedProd({});
         fetch(`${process.env.REACT_APP_SERVER_URL}/ownedItems/${user.address}`)
             .then((res) => res.json())
-            .then((dat) => setOrders(dat));
+            .then((dat) => {
+                setOrders(dat)
+                setInit(false)
+            });
     }, []);
 
     return (      <>
@@ -22,7 +27,7 @@ const OrderHistory = ({isAdmin}) => {
             <OrderView isAdmin ={isAdmin} order={selectedProd} select={setSelectedProd}/>
         ) : (
             <section className={classNames(styles.products, styles.shopPage)}>
-                {orders.length === 0 ? (
+                {orders.length === 0 && init? (
                     <>
                         <Product shimmer="true" />
                         <Product shimmer="true" />

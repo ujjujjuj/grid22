@@ -11,17 +11,24 @@ const Products = ({ resale }) => {
     const [selectedProd, setSelectedProd] = useState({});
     const [products, setProducts] = useState([]);
     const { web3Data } = useAuth();
+    const [init,setInit] = useState(true);
 
     useEffect(() => {
         setSelectedProd({});
         if (!resale) {
             fetch(`${process.env.REACT_APP_SERVER_URL}/product/all`)
                 .then((res) => res.json())
-                .then((dat) => setProducts(dat));
+                .then((dat) => {
+                    setProducts(dat)
+                    setInit(false)
+                });
         } else {
             fetch(`${process.env.REACT_APP_SERVER_URL}/product/resale`)
                 .then((res) => res.json())
-                .then((dat) => setProducts(dat));
+                .then((dat) => {
+                    setProducts(dat)
+                    setInit(false)
+                });
         }
     }, [resale]);
 
@@ -31,7 +38,7 @@ const Products = ({ resale }) => {
                 <ProductView product={selectedProd} select={setSelectedProd} resale={resale} />
             ) : (
                 <section className={classNames(styles.products, styles.shopPage)}>
-                    {products.length === 0 ? (
+                    {products.length === 0 && init ? (
                         <>
                             <Product shimmer="true" />
                             <Product shimmer="true" />

@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 const ProductView = ({ product, select, resale }) => {
     const [plusBalance, setPlusBalance] = useState(10);
     const [isPopVisible, setPopVisible] = useState(false);
+    const [isSuccessPopVisible, setSuccessPopVisible] = useState(false);
+
     const [usePlus, setUsePlus] = useState(false);
     const { web3Data, user } = useAuth();
 
@@ -28,8 +30,8 @@ const ProductView = ({ product, select, resale }) => {
             );
             console.log(tx);
         }
-        alert("Product purchased!");
         setPopVisible(!isPopVisible);
+        setSuccessPopVisible(true);
     };
 
     const goBack = () => {
@@ -57,6 +59,34 @@ const ProductView = ({ product, select, resale }) => {
     return (
         <>
             <section className={styles.prodViewWrap}>
+            {isSuccessPopVisible ? (
+                    <>
+                        <div
+                            className={styles.overlay}
+                            onClick={() => {
+                                setSuccessPopVisible(false);
+                            }}
+                        ></div>
+                        <div className={styles.popUp}>
+                            <h3>
+                                The transaction was
+                                <br />
+                                successfull!
+                            </h3>
+                            <div
+                                className={styles.buyBtn}
+                                onClick={() => {
+                                    setSuccessPopVisible(false);
+                                }}
+                                style={{marginTop:20}}
+                            >
+                                <i className="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;Continue
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <></>
+                )}
                 {isPopVisible ? (
                     <>
                         <div
