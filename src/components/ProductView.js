@@ -56,6 +56,8 @@ const ProductView = ({ product, select, resale }) => {
                     )}
                     <h1>{product.name}</h1>
                     <h2>{product.price} ETH</h2>
+                    {product.isSoulbound ? <div className={styles.soulBound}>Soulbound</div> : <></>}
+
                     <h3>Product Details</h3>
                     <ul>
                         {product.features.map((x, n) => {

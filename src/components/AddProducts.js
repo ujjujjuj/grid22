@@ -9,10 +9,10 @@ const AddProduct = () => {
     const [formData, setFormData] = useState({
         pname: "",
         features: [],
-        price: "0.001",
+        price: "",
         isSoulbound: false,
         uploaded: false,
-        warranty: "1",
+        warranty: "",
         imageId: "",
     });
     const [features, setFeatures] = useState("");
@@ -78,14 +78,13 @@ const AddProduct = () => {
             });
             setFormData((oldFD) => ({ ...oldFD, uploaded: true }));
             setPopVisible(true)
-            fileRef.current.files=[]
             setFormData({
                 pname: "",
                 features: [],
-                price: "0.001",
+                price: "",
                 isSoulbound: false,
                 uploaded: false,
-                warranty: "1",
+                warranty: "",
                 imageId: "",
             })
         } catch (e) {

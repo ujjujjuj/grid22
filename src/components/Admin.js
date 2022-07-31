@@ -5,7 +5,7 @@ import { useAuth } from "../hooks/auth";
 import styles from "../styles/home.module.css";
 import AddProduct from "./AddProducts";
 import { useNavigate } from "react-router";
-
+import OrderHistory from './Orders';
 import Navbar from "./Navbar";
 import Warranty from "./Warranty";
 import contractAddress from "../data/localhost.json";
@@ -16,7 +16,7 @@ const Admin = () => {
 
     const getDivToRender = (state) => {
         if (state === 0) return <AddProduct />;
-        if (state === 1) return <Products resale={false} />;
+        if (state === 1) return <OrderHistory resale={false} isAdmin={true} />;
         if (state === 2) return <Warranty />;
     };
 

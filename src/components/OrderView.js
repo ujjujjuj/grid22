@@ -1,7 +1,7 @@
 import styles from "../styles/productview.module.css";
 import { useEffect, useState } from "react";
 
-const OrderView = ({ order, select, resale, isResale = true }) => {
+const OrderView = ({ order, select, resale, isResale = true ,isAdmin = false}) => {
     const [plusBalance, setPlusBalance] = useState(10);
     const [isPopVisible, setPopVisible] = useState(false)
     const [resalePrice, setResalePrice] = useState("")
@@ -129,9 +129,10 @@ const OrderView = ({ order, select, resale, isResale = true }) => {
                             : <></>
                     }
 
+                    {isAdmin?<></>:
                     <div className={`${styles.buyBtn} ${order.resale ? styles.disabled : ""}`} onClick={buyProduct}>
                         <i class="fas fa-coins"></i>&nbsp;&nbsp;List for Resale
-                    </div>
+                    </div>}
                 </div>
 
             </section>

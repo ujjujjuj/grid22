@@ -4,7 +4,7 @@ import styles from "../styles/shop.module.css";
 import OrderView from "./OrderView";
 import Product from "./Product";
 
-const OrderHistory = ()=>{
+const OrderHistory = ({isAdmin})=>{
     const [selectedProd, setSelectedProd] = useState({});
     const [orders, setOrders] = useState([]);
 
@@ -18,7 +18,7 @@ const OrderHistory = ()=>{
 
     return (      <>
         {selectedProd.name ? (
-            <OrderView order={selectedProd} select={setSelectedProd}/>
+            <OrderView isAdmin ={isAdmin} order={selectedProd} select={setSelectedProd}/>
         ) : (
             <section className={classNames(styles.products, styles.shopPage)}>
                 {orders.length === 0 ? (
