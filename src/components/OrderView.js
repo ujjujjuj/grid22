@@ -1,10 +1,10 @@
 import styles from "../styles/productview.module.css";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
-const ProductView = ({ product, select, resale }) => {
+const OrderView = ({ order, select, resale, isResale = true }) => {
     const [plusBalance, setPlusBalance] = useState(10);
     const [isPopVisible,setPopVisible] = useState(false)
+    const [resalePrice,setResalePrice] = useState("")
     const buyProduct = () => {
         setPopVisible(!isPopVisible)
         //write code to buy product
@@ -16,7 +16,7 @@ const ProductView = ({ product, select, resale }) => {
     };
 
     useEffect(() => {
-        console.log(product)
+        console.log(order)
     }, [])
 
     return (
@@ -27,10 +27,18 @@ const ProductView = ({ product, select, resale }) => {
                         setPopVisible(false)
                     }}></div>
                         <div className={styles.popUp} >
-                            <h3>Your are about to make a purchase of</h3>
-                            <h1>0.001 ETH</h1>
-                            <small>My Balance: <span>{plusBalance} PlusCoins</span></small>
-                            <span className={plusBalance>0?"":styles.disabled}><input type={"checkbox"} name="plusCoin" id="plusCoin" /><label htmlFor="plusCoin">Use PlusCoins</label></span>
+                            <h3>Your are about to list your item for resale</h3>
+                            <input
+                                name="price"
+                                placeholder="Price (ETH)"
+                                required
+                                value={resalePrice}
+                                type="number"
+                                step={"0.001"}
+                                min={0}
+                                onChange={(e) => setResalePrice(e.target.value)}
+                                className={styles.priceInput}
+                            />
                             <div className={styles.buyBtn} onClick={buyProduct}>
                                 <i className="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;Confirm
                             </div>
@@ -42,7 +50,7 @@ const ProductView = ({ product, select, resale }) => {
                     <div
                         className={styles.imgHolder}
                         style={{
-                            backgroundImage: `url('${process.env.REACT_APP_SERVER_URL}/image/${product.image}')`,
+                            backgroundImage: `url('${process.env.REACT_APP_SERVER_URL}/image/${order.image}')`,
                         }}
                     ></div>
                 </div>
@@ -54,45 +62,36 @@ const ProductView = ({ product, select, resale }) => {
                     ) : (
                         <></>
                     )}
-                    <h1>{product.name}</h1>
-                    <h2>{product.price} ETH</h2>
+                    <h1>{order.name}</h1>
+                    <h2>{order.price} ETH</h2>
                     <h3>Product Details</h3>
                     <ul>
-                        {product.features.map((x, n) => {
+                        {order.features.map((x, n) => {
                             return <li key={n}>{x}</li>;
                         })}
                     </ul>
-                    {resale ? (
-                        <div className={styles.resaleInfo}>
+                    <div className={styles.warrantyWrap}>
+                    <div className={styles.resaleInfo}>
                             <div>
-                                <h3>Previous Owner</h3>
-                                <p>Ujjwal Dimri</p>
-                            </div>
-                            <div>
-                                <h3>Purchase Date</h3>
-                                <p>22 Jul 2022</p>
-                            </div>
-                            <div>
-                                <h3>Warranty Ends on</h3>
-                                <p>20 May 2023</p>
+                                <h3>Warranty Ends On</h3>
+                                <p>23 June 2022</p>
                             </div>
                         </div>
-                    ) : (
-                        <div className={styles.resaleInfo}>
+                    </div>
+                    <div className={styles.resaleInfo}>
                             <div>
-                                <h3>Warranty Peroid</h3>
-                                <p>2 years</p>
+                                <h3>Ownership Info</h3>
+                                <a href="https://polygonscan.com" target={"_blank"} rel="noreferrer">View</a>
                             </div>
                         </div>
-                    )}
-                    {resale?<a href="https://google.com" target={"_blank"}  style={{marginTop:15}} rel="noreferrer">View on PolygonScan</a>:<></>}
-                    <div className={styles.buyBtn} onClick={buyProduct}>
-                        <i className="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;BUY NOW
+                        <div className={`${styles.buyBtn} ${order.resale?styles.disabled:""}`} onClick={buyProduct}>
+                    <i class="fas fa-coins"></i>&nbsp;&nbsp;List for Resale
                     </div>
                 </div>
+                
             </section>
         </>
     );
 };
 
-export default ProductView;
+export default OrderView;

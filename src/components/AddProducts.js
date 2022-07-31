@@ -4,6 +4,8 @@ import { ethers } from "ethers";
 import { useAuth } from "../hooks/auth";
 
 const AddProduct = () => {
+    const [isPopVisible, setPopVisible] = useState(false)
+
     const [formData, setFormData] = useState({
         pname: "",
         features: [],
@@ -41,15 +43,17 @@ const AddProduct = () => {
     }, [formData]);
 
     const uploadImage = async () => {
-        const formData = new FormData();
-        formData.append("file", fileRef.current.files[0]);
-        let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/upload/image`, {
-            method: "POST",
-            body: formData,
-        });
-        let data = await res.json();
-        // let data = { imageId: "42" };
-        setFormData((oldFD) => ({ ...oldFD, imageId: data.imageId }));
+        if (fileRef.current.files.length) {
+            const formData = new FormData();
+            formData.append("file", fileRef.current.files[0]);
+            let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/upload/image`, {
+                method: "POST",
+                body: formData,
+            });
+            let data = await res.json();
+            // let data = { imageId: "42" };
+            setFormData((oldFD) => ({ ...oldFD, imageId: data.imageId }));
+        }
     };
 
     const uploadData = async () => {
@@ -73,7 +77,8 @@ const AddProduct = () => {
                 }),
             });
             setFormData((oldFD) => ({ ...oldFD, uploaded: true }));
-            alert("Product uploaded successfully!");
+            setPopVisible(true)
+            fileRef.current.files=[]
             setFormData({
                 pname: "",
                 features: [],
@@ -92,6 +97,18 @@ const AddProduct = () => {
     return (
         <>
             <section className={styles.prodViewWrap}>
+                {isPopVisible ? (
+                    <><div className={styles.overlay} onClick={() => {
+                        setPopVisible(false)
+                    }}></div>
+                        <div className={styles.popUp} >
+                            <h3>The product was added<br />successfully!</h3>
+                            <div className={styles.buyBtn} onClick={() => {
+                                setPopVisible(false)
+                            }}>
+                                <i className="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;Continue
+                            </div>
+                        </div></>) : <></>}
                 <form className={styles.formWrap}>
                     <input
                         name="pname"
@@ -140,7 +157,7 @@ const AddProduct = () => {
                         onChange={(e) => setFormData((old) => ({ ...old, price: e.target.value }))}
                         className={styles.priceInput}
                     />
-                    <input className={styles.imageInput} type="file" ref={fileRef} accept="image/png, image/gif, image/jpeg" />
+                    <input className={styles.imageInput} type="file" ref={fileRef} accept="image/png, image/gif, image/jpeg" required />
                     <input
                         name="warr"
                         placeholder="Warranty Period (months)"
