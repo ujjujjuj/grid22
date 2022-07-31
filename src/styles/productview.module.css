@@ -1,4 +1,4 @@
-.prodViewWrap{
+.prodViewWrap {
     display: flex;
     background-color: white;
     margin: 8px;
@@ -8,10 +8,10 @@
     position: relative;
     padding-bottom: 40px;
 }
-.prodViewWrap .imageWrap{
-    flex : 0 0 45%;
+.prodViewWrap .imageWrap {
+    flex: 0 0 45%;
 }
-.prodViewWrap .imageWrap .imgHolder{
+.prodViewWrap .imageWrap .imgHolder {
     height: 80%;
     width: 80%;
     margin: auto;
@@ -22,35 +22,35 @@
     background-image: url("https://rukminim1.flixcart.com/image/832/832/kpr8k280/smartwatch/y/l/g/bsw004-android-ios-fire-boltt-original-imag3wwa4uk2kwva.jpeg?q=70");
 }
 
-.prodViewWrap .contentWrap{
-    flex : 0 0 50%;
+.prodViewWrap .contentWrap {
+    flex: 0 0 50%;
     display: flex;
     flex-direction: column;
     margin-top: 35px;
 }
-.prodViewWrap .contentWrap h1{
+.prodViewWrap .contentWrap h1 {
     font-weight: 500;
     max-width: 90%;
     font-size: 1.2em;
 }
-.prodViewWrap .contentWrap h2{
+.prodViewWrap .contentWrap h2 {
     font-weight: 600;
     margin-top: 8px;
     color: #0e1850;
 }
-.prodViewWrap .contentWrap h3{
+.prodViewWrap .contentWrap h3 {
     font-weight: 600;
     color: #2874f0;
     margin-top: 8px;
 }
-.prodViewWrap .contentWrap ul{
+.prodViewWrap .contentWrap ul {
     margin-left: 5px;
     margin-top: 5px;
     list-style: square;
     color: #0e1850;
     list-style-position: inside;
 }
-.prodViewWrap .buyBtn{
+.prodViewWrap .buyBtn {
     background: #fb641b;
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 20%);
     border: none;
@@ -63,18 +63,18 @@
     font-weight: 500;
     transition: all 0.3s ease;
 }
-.prodViewWrap .buyBtn:hover{
+.prodViewWrap .buyBtn:hover {
     transform: translatey(-2px);
 }
-.backIcon{
+.backIcon {
     position: absolute;
     font-size: 1.4em;
     top: 8px;
     cursor: pointer;
-    color: #027CD5;
+    color: #027cd5;
     left: 22px;
 }
-.prodViewWrap .contentWrap p{
+.prodViewWrap .contentWrap p {
     display: flex;
     align-items: center;
     margin-bottom: 7px;
@@ -84,28 +84,28 @@
     position: relative;
 }
 
-.prodViewWrap .resaleInfo{
+.prodViewWrap .resaleInfo {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 10px;
 }
-.prodViewWrap .resaleInfo>div{
+.prodViewWrap .resaleInfo > div {
     margin-right: 35px;
 }
-.prodViewWrap .resaleInfo h3{
+.prodViewWrap .resaleInfo h3 {
     color: #0e1850;
     font-size: 1em;
 }
 
-.prodViewWrap .resaleInfo p{
-    color: #027CD5;
+.prodViewWrap .resaleInfo p {
+    color: #027cd5;
     font-size: 0.95em;
     margin-top: 2px;
     margin-bottom: 0;
 }
 
-.prodViewWrap .overlay{
+.prodViewWrap .overlay {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -116,44 +116,44 @@
     opacity: 0.5;
     background-color: black;
 }
-.prodViewWrap .popUp{
+.prodViewWrap .popUp {
     position: fixed;
     background-color: white;
     top: 50%;
     left: 50%;
     border-radius: 4px;
     padding: 35px 45px;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     z-index: 30;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.prodViewWrap .popUp h3{
+.prodViewWrap .popUp h3 {
     font-weight: 500;
 }
-.prodViewWrap .popUp h1{
+.prodViewWrap .popUp h1 {
     font-weight: 600;
     font-size: 1.5em;
     margin-top: 5px;
-    color: #027CD5;
+    color: #027cd5;
 }
 
-.prodViewWrap .popUp small{
+.prodViewWrap .popUp small {
     color: #0e1850;
     margin-top: 5px;
     font-weight: 500;
 }
-.prodViewWrap .popUp small span{
+.prodViewWrap .popUp small span {
     color: #fb641b;
     font-weight: 600;
 }
-.prodViewWrap .popUp .buyBtn{
+.prodViewWrap .popUp .buyBtn {
     margin-top: 10px;
     padding: 13px 34px;
     font-size: 0.9em;
 }
-.prodViewWrap .popUp >span{
+.prodViewWrap .popUp > span {
     font-size: 0.8em;
     user-select: none;
     margin-block: 7px;

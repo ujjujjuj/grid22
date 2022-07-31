@@ -1,14 +1,35 @@
 import styles from "../styles/productview.module.css";
 import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/auth";
+import { BigNumber } from "ethers";
+import { ethers } from "ethers";
 import { Link } from "react-router-dom";
 
 const ProductView = ({ product, select, resale }) => {
     const [plusBalance, setPlusBalance] = useState(10);
-    const [isPopVisible,setPopVisible] = useState(false)
-    const buyProduct = () => {
-        setPopVisible(!isPopVisible)
-        //write code to buy product
-        //product buy successful -> add to user orders
+    const [isPopVisible, setPopVisible] = useState(false);
+    const [usePlus, setUsePlus] = useState(false);
+    const { web3Data, user } = useAuth();
+
+    const buyProduct = async () => {
+        const [etherVal, coinVal] = etherToPay();
+        console.log(ethers.utils.parseEther(etherVal).toNumber(), coinVal);
+        if (resale) {
+            const tx = await web3Data.contract.buyResaleItem(product.sno, { value: ethers.utils.parseEther(etherVal) });
+            console.log(tx);
+        } else {
+            const tx = await web3Data.contract.buyItem(
+                product._id,
+                Math.floor(Math.random() * 42424242) * 1000 + product._id,
+                coinVal,
+                {
+                    value: ethers.utils.parseEther(etherVal),
+                }
+            );
+            console.log(tx);
+        }
+        alert("Product purchased!");
+        setPopVisible(!isPopVisible);
     };
 
     const goBack = () => {
@@ -16,25 +37,63 @@ const ProductView = ({ product, select, resale }) => {
     };
 
     useEffect(() => {
-        console.log(product)
-    }, [])
+        console.log(product);
+        web3Data.contract.plusCoins(user.address).then((balance) => {
+            // balance = BigNumber.from(500);
+            setPlusBalance(balance.toNumber());
+        });
+    }, []);
+
+    const etherToPay = () => {
+        if (usePlus) {
+            const plusInWei = plusBalance * 1e12;
+            const plusToPay = Math.min(plusInWei, ethers.utils.parseEther(product.price).toNumber());
+            return [ethers.utils.formatEther(ethers.utils.parseEther(product.price).toNumber() - plusToPay), plusToPay];
+        } else {
+            return [product.price, 0];
+        }
+    };
 
     return (
         <>
             <section className={styles.prodViewWrap}>
                 {isPopVisible ? (
-                    <><div className={styles.overlay} onClick={()=>{
-                        setPopVisible(false)
-                    }}></div>
-                        <div className={styles.popUp} >
-                            <h3>Your are about to make a purchase of</h3>
-                            <h1>0.001 ETH</h1>
-                            <small>My Balance: <span>{plusBalance} PlusCoins</span></small>
-                            <span className={plusBalance>0?"":styles.disabled}><input type={"checkbox"} name="plusCoin" id="plusCoin" /><label htmlFor="plusCoin">Use PlusCoins</label></span>
+                    <>
+                        <div
+                            className={styles.overlay}
+                            onClick={() => {
+                                setPopVisible(false);
+                            }}
+                        ></div>
+                        <div className={styles.popUp}>
+                            <h3>You are about to make a purchase of</h3>
+                            <h1>{etherToPay()[0]} ETH</h1>
+                            {!resale && (
+                                <>
+                                    <small>
+                                        My Balance: <span>{plusBalance} PlusCoins</span>
+                                    </small>
+                                    <span className={plusBalance > 0 ? "" : styles.disabled}>
+                                        <input
+                                            type="checkbox"
+                                            name="plusCoin"
+                                            id="plusCoin"
+                                            checked={usePlus}
+                                            onChange={() => setUsePlus((oldUsePlus) => !oldUsePlus)}
+                                        />
+                                        <label htmlFor="plusCoin">Use PlusCoins</label>
+                                    </span>
+                                </>
+                            )}
+
                             <div className={styles.buyBtn} onClick={buyProduct}>
                                 <i className="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;Confirm
                             </div>
-                        </div></>) : <></>}
+                        </div>
+                    </>
+                ) : (
+                    <></>
+                )}
                 <div className={styles.backIcon} onClick={goBack}>
                     <i className="fa-solid fa-arrow-left-long"></i>
                 </div>
@@ -68,27 +127,29 @@ const ProductView = ({ product, select, resale }) => {
                         <div className={styles.resaleInfo}>
                             <div>
                                 <h3>Previous Owner</h3>
-                                <p>Ujjwal Dimri</p>
+                                <p>{product.owner}</p>
                             </div>
                             <div>
-                                <h3>Purchase Date</h3>
-                                <p>22 Jul 2022</p>
-                            </div>
-                            <div>
-                                <h3>Warranty Ends on</h3>
-                                <p>20 May 2023</p>
+                                <h3>Warranty Period</h3>
+                                <p>{product.warranty} month(s)</p>
                             </div>
                         </div>
                     ) : (
                         <div className={styles.resaleInfo}>
                             <div>
                                 <h3>Warranty Peroid</h3>
-                                <p>2 years</p>
+                                <p>{product.warranty} month(s)</p>
                             </div>
                         </div>
                     )}
-                    {resale?<a href="https://google.com" target={"_blank"}  style={{marginTop:15}} rel="noreferrer">View on PolygonScan</a>:<></>}
-                    <div className={styles.buyBtn} onClick={buyProduct}>
+                    {resale ? (
+                        <a href="https://google.com" target={"_blank"} style={{ marginTop: 15 }} rel="noreferrer">
+                            View on PolygonScan
+                        </a>
+                    ) : (
+                        <></>
+                    )}
+                    <div className={styles.buyBtn} onClick={() => setPopVisible(true)}>
                         <i className="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;BUY NOW
                     </div>
                 </div>
