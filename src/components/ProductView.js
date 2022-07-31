@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/auth";
 import { BigNumber } from "ethers";
 import { ethers } from "ethers";
+import { Link } from "react-router-dom";
 
 const ProductView = ({ product, select, resale }) => {
     const [plusBalance, setPlusBalance] = useState(10);
@@ -115,8 +116,14 @@ const ProductView = ({ product, select, resale }) => {
                             </div>
                         </div>
                     ) : (
-                        <></>
+                        <div className={styles.resaleInfo}>
+                            <div>
+                                <h3>Warranty Peroid</h3>
+                                <p>2 years</p>
+                            </div>
+                        </div>
                     )}
+                    {resale?<a href="https://google.com" target={"_blank"}  style={{marginTop:15}} rel="noreferrer">View on PolygonScan</a>:<></>}
                     <div className={styles.buyBtn} onClick={buyProduct}>
                         <i className="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;BUY NOW
                     </div>

@@ -88,8 +88,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-top: 15px;
-    margin-bottom: 5px;
+    margin-top: 10px;
 }
 .prodViewWrap .resaleInfo > div {
     margin-right: 35px;
@@ -103,6 +102,7 @@
     color: #027cd5;
     font-size: 0.95em;
     margin-top: 2px;
+    margin-bottom: 0;
 }
 
 .prodViewWrap .overlay {
@@ -150,7 +150,7 @@
 }
 .prodViewWrap .popUp .buyBtn {
     margin-top: 10px;
-    padding: 10px 25px;
+    padding: 13px 34px;
     font-size: 0.9em;
 }
 .prodViewWrap .popUp > span {
@@ -162,8 +162,37 @@
     gap: 5px;
 }
 
-.prodViewWrap .popUp > span.disabled {
+.prodViewWrap .disabled{
     opacity: 0.5;
     pointer-events: none;
 }
 
+
+
+
+.prodViewWrap .popUp>input{
+    width:80%;
+    margin-bottom: 15px;
+    padding: 13px;
+    margin-top: 15px;
+    font-family: 'Poppins';
+    border-radius: 4px;
+    border: 1.5px solid #e1e1e1;
+}
+
+.prodViewWrap .resaleInfo li{
+    margin-bottom: 8px;
+}
+
+.prodViewWrap .resaleInfo li small{
+    margin-left: 22px;
+    color: #2874f0;
+}
+.prodViewWrap .warrantyList li{
+    font-weight: 500;
+}
+
+.prodViewWrap .warrantyList li span{
+    font-weight:400;
+    color: #027CD5;
+}
