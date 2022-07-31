@@ -3,8 +3,22 @@ import { useEffect, useState } from "react";
 
 const OrderView = ({ order, select, resale, isResale = true }) => {
     const [plusBalance, setPlusBalance] = useState(10);
-    const [isPopVisible,setPopVisible] = useState(false)
-    const [resalePrice,setResalePrice] = useState("")
+    const [isPopVisible, setPopVisible] = useState(false)
+    const [resalePrice, setResalePrice] = useState("")
+    const [owners, setOwners] = useState([
+        {
+            addr: "efewf3r43esg43gs",
+            date: "22 July 2022"
+        }])
+    const [warrantyHistory, setWarrantyHistory] = useState([
+        {
+            claimed: true,
+            date: "22 July 2022",
+            reason: "Theft",
+            
+        }
+    ])
+
     const buyProduct = () => {
         setPopVisible(!isPopVisible)
         //write code to buy product
@@ -23,7 +37,7 @@ const OrderView = ({ order, select, resale, isResale = true }) => {
         <>
             <section className={styles.prodViewWrap}>
                 {isPopVisible ? (
-                    <><div className={styles.overlay} onClick={()=>{
+                    <><div className={styles.overlay} onClick={() => {
                         setPopVisible(false)
                     }}></div>
                         <div className={styles.popUp} >
@@ -71,7 +85,7 @@ const OrderView = ({ order, select, resale, isResale = true }) => {
                         })}
                     </ul>
                     <div className={styles.warrantyWrap}>
-                    <div className={styles.resaleInfo}>
+                        <div className={styles.resaleInfo}>
                             <div>
                                 <h3>Warranty Ends On</h3>
                                 <p>23 June 2022</p>
@@ -79,16 +93,47 @@ const OrderView = ({ order, select, resale, isResale = true }) => {
                         </div>
                     </div>
                     <div className={styles.resaleInfo}>
-                            <div>
-                                <h3>Ownership Info</h3>
-                                <a href="https://polygonscan.com" target={"_blank"} rel="noreferrer">View</a>
-                            </div>
+                        <div>
+                            <h3>Ownership Info</h3>
+                            {/* <a href="https://polygonscan.com" target={"_blank"} rel="noreferrer">View</a> */}
+                            <ul>
+                                {owners.map((x, n) => {
+                                    return <li key={n}>{x.addr}<br /><small>Purchased on: {x.date}</small></li>;
+                                })}
+                            </ul>
                         </div>
-                        <div className={`${styles.buyBtn} ${order.resale?styles.disabled:""}`} onClick={buyProduct}>
-                    <i class="fas fa-coins"></i>&nbsp;&nbsp;List for Resale
+
+                    </div>
+                    {
+                        warrantyHistory.length ?
+                            <>
+                                <div className={styles.resaleInfo} style={{marginTop:2}}>
+                                    <div>
+                                        <h3>Warranty History</h3>
+                                        <ul className={styles.warrantyList}>
+                                            {warrantyHistory.map((x, n) => {
+                                                return (
+                                                <li key={n}>
+                                                   Claimed: <span>{x.claimed?"Yes":"No"}</span>
+                                                   &nbsp;&nbsp;
+                                                   Date: <span>{x.date}</span>
+                                                   &nbsp;&nbsp;
+                                                   Reason: <span>{x.reason}</span>
+                                                </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </>
+                            : <></>
+                    }
+
+                    <div className={`${styles.buyBtn} ${order.resale ? styles.disabled : ""}`} onClick={buyProduct}>
+                        <i class="fas fa-coins"></i>&nbsp;&nbsp;List for Resale
                     </div>
                 </div>
-                
+
             </section>
         </>
     );

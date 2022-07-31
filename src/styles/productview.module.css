@@ -179,3 +179,20 @@
     border-radius: 4px;
     border: 1.5px solid #e1e1e1;
 }
+
+.prodViewWrap .resaleInfo li{
+    margin-bottom: 8px;
+}
+
+.prodViewWrap .resaleInfo li small{
+    margin-left: 22px;
+    color: #2874f0;
+}
+.prodViewWrap .warrantyList li{
+    font-weight: 500;
+}
+
+.prodViewWrap .warrantyList li span{
+    font-weight:400;
+    color: #027CD5;
+}
