@@ -2,9 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import styles from "../styles/addproduct.module.css";
 import { ethers } from "ethers";
 import { useAuth } from "../hooks/auth";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
-    const [isPopVisible, setPopVisible] = useState(false)
+    const [isPopVisible, setPopVisible] = useState(false);
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         pname: "",
@@ -57,13 +59,14 @@ const AddProduct = () => {
     };
 
     const uploadData = async () => {
-        // const itemId = (await web3Data.contract.totalItems()).toNumber();
-        const itemId = Math.floor(Math.random() * 424242);
+        const itemId = (await web3Data.contract.totalItems()).toNumber();
+        // const itemId = Math.floor(Math.random() * 424242);
         const itemURI = `${process.env.REACT_APP_SERVER_URL}/product/${itemId}`;
         const warrantySeconds = parseFloat(formData.warranty) * 30 * 24 * 60 * 60;
         const weiValue = ethers.utils.parseEther(formData.price);
         try {
-            // await web3Data.contract.createItem(itemURI, weiValue, warrantySeconds, formData.isSoulbound);
+            const tx = await web3Data.contract.createItem(itemURI, weiValue, warrantySeconds, formData.isSoulbound);
+            console.log(tx);
             await fetch(`${process.env.REACT_APP_SERVER_URL}/api/upload/product`, {
                 method: "POST",
                 body: new URLSearchParams({
@@ -77,38 +80,46 @@ const AddProduct = () => {
                 }),
             });
             setFormData((oldFD) => ({ ...oldFD, uploaded: true }));
-            setPopVisible(true)
-            fileRef.current.files=[]
-            setFormData({
-                pname: "",
-                features: [],
-                price: "0.001",
-                isSoulbound: false,
-                uploaded: false,
-                warranty: "1",
-                imageId: "",
-            })
+            setPopVisible(true);
         } catch (e) {
             console.log(e);
             // alert("failed");
         }
     };
+    useEffect(() => {
+        if (!isPopVisible && formData.uploaded) navigate("/");
+    }, [isPopVisible]);
 
     return (
         <>
             <section className={styles.prodViewWrap}>
                 {isPopVisible ? (
-                    <><div className={styles.overlay} onClick={() => {
-                        setPopVisible(false)
-                    }}></div>
-                        <div className={styles.popUp} >
-                            <h3>The product was added<br />successfully!</h3>
-                            <div className={styles.buyBtn} onClick={() => {
-                                setPopVisible(false)
-                            }}>
+                    <>
+                        <div
+                            className={styles.overlay}
+                            onClick={() => {
+                                setPopVisible(false);
+                            }}
+                        ></div>
+                        <div className={styles.popUp}>
+                            <h3>
+                                The product was added
+                                <br />
+                                successfully!
+                            </h3>
+                            <div
+                                className={styles.buyBtn}
+                                onClick={() => {
+                                    setPopVisible(false);
+                                }}
+                            >
                                 <i className="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;Continue
                             </div>
-                        </div></>) : <></>}
+                        </div>
+                    </>
+                ) : (
+                    <></>
+                )}
                 <form className={styles.formWrap}>
                     <input
                         name="pname"
@@ -157,7 +168,13 @@ const AddProduct = () => {
                         onChange={(e) => setFormData((old) => ({ ...old, price: e.target.value }))}
                         className={styles.priceInput}
                     />
-                    <input className={styles.imageInput} type="file" ref={fileRef} accept="image/png, image/gif, image/jpeg" required />
+                    <input
+                        className={styles.imageInput}
+                        type="file"
+                        ref={fileRef}
+                        accept="image/png, image/gif, image/jpeg"
+                        required
+                    />
                     <input
                         name="warr"
                         placeholder="Warranty Period (months)"

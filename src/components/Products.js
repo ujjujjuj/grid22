@@ -19,7 +19,7 @@ const Products = ({ resale }) => {
                 .then((res) => res.json())
                 .then((dat) => setProducts(dat));
         } else {
-            fetch(`${process.env.REACT_APP_SERVER_URL}/product/all`)
+            fetch(`${process.env.REACT_APP_SERVER_URL}/product/resale`)
                 .then((res) => res.json())
                 .then((dat) => setProducts(dat));
         }

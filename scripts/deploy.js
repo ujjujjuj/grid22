@@ -34,11 +34,6 @@ const main = async () => {
         path.join(__dirname, "../src/data/FlipkartItem.json")
     );
 
-    // TODO: delte later
-    // await hardhatToken.createItem("prudcturi", ethers.utils.parseEther("0.01"), 314159265, false);
-    // await hardhatToken.connect(addr1).buyItem(0, "ALKEJKLEJLK",0, {
-    //     value: ethers.utils.parseEther("0.01"),
-    // });
 };
 
 main().catch((e) => {
