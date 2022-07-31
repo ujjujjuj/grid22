@@ -20,7 +20,7 @@ const AddProduct = () => {
     const fileRef = useRef();
 
     const handleKeyDown = (event) => {
-        if (event.key === "Enter") {
+        if (event.key === "Enter" && features) {
             setFormData((form) => ({ ...form, features: [...form.features, features] }));
             setFeatures("");
         }
@@ -53,13 +53,13 @@ const AddProduct = () => {
     };
 
     const uploadData = async () => {
-        const itemId = (await web3Data.contract.totalItems()).toNumber();
-        // const itemId = Math.floor(Math.random() * 424242);
+        // const itemId = (await web3Data.contract.totalItems()).toNumber();
+        const itemId = Math.floor(Math.random() * 424242);
         const itemURI = `${process.env.REACT_APP_SERVER_URL}/product/${itemId}`;
         const warrantySeconds = parseFloat(formData.warranty) * 30 * 24 * 60 * 60;
         const weiValue = ethers.utils.parseEther(formData.price);
         try {
-            await web3Data.contract.createItem(itemURI, weiValue, warrantySeconds, formData.isSoulbound);
+            // await web3Data.contract.createItem(itemURI, weiValue, warrantySeconds, formData.isSoulbound);
             await fetch(`${process.env.REACT_APP_SERVER_URL}/api/upload/product`, {
                 method: "POST",
                 body: new URLSearchParams({
@@ -74,6 +74,15 @@ const AddProduct = () => {
             });
             setFormData((oldFD) => ({ ...oldFD, uploaded: true }));
             alert("Product uploaded successfully!");
+            setFormData({
+                pname: "",
+                features: [],
+                price: "0.001",
+                isSoulbound: false,
+                uploaded: false,
+                warranty: "1",
+                imageId: "",
+            })
         } catch (e) {
             console.log(e);
             // alert("failed");
@@ -131,7 +140,7 @@ const AddProduct = () => {
                         onChange={(e) => setFormData((old) => ({ ...old, price: e.target.value }))}
                         className={styles.priceInput}
                     />
-                    <input type="file" ref={fileRef} accept="image/png, image/gif, image/jpeg" />
+                    <input className={styles.imageInput} type="file" ref={fileRef} accept="image/png, image/gif, image/jpeg" />
                     <input
                         name="warr"
                         placeholder="Warranty Period (months)"

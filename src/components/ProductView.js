@@ -1,8 +1,11 @@
 import styles from "../styles/productview.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ProductView = ({ product, select, resale }) => {
+    const [plusBalance, setPlusBalance] = useState(10);
+    const [isPopVisible,setPopVisible] = useState(false)
     const buyProduct = () => {
+        setPopVisible(!isPopVisible)
         //write code to buy product
         //product buy successful -> add to user orders
     };
@@ -11,9 +14,26 @@ const ProductView = ({ product, select, resale }) => {
         select({});
     };
 
+    useEffect(() => {
+        console.log(product)
+    }, [])
+
     return (
         <>
             <section className={styles.prodViewWrap}>
+                {isPopVisible ? (
+                    <><div className={styles.overlay} onClick={()=>{
+                        setPopVisible(false)
+                    }}></div>
+                        <div className={styles.popUp} >
+                            <h3>Your are about to make a purchase of</h3>
+                            <h1>0.001 ETH</h1>
+                            <small>My Balance: <span>{plusBalance} PlusCoins</span></small>
+                            <span className={plusBalance>0?"":styles.disabled}><input type={"checkbox"} name="plusCoin" id="plusCoin" /><label htmlFor="plusCoin">Use PlusCoins</label></span>
+                            <div className={styles.buyBtn} onClick={buyProduct}>
+                                <i className="fa-solid fa-bolt-lightning"></i>&nbsp;&nbsp;Confirm
+                            </div>
+                        </div></>) : <></>}
                 <div className={styles.backIcon} onClick={goBack}>
                     <i className="fa-solid fa-arrow-left-long"></i>
                 </div>

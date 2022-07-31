@@ -9,7 +9,7 @@ const FileUploader = ({onFileSelectSuccess, onFileSelectError}) => {
         onFileSelectSuccess(file);
       };
     return (
-            <input type="file" onChange={handleFileInput}   className={styles.imageInput}/>
+            <input type="file" id='image' name='image' onChange={handleFileInput}   className={styles.imageInput}/>
     )
 }
 

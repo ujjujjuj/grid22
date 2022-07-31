@@ -30,7 +30,7 @@ const Product = ({
             <div className={styles.prodDetWrap}>
                 <p className={styles.prodName}>{shimmer ? "" : product.name}</p>
                 <div style={{ display: "flex", alignItems: "center" }}>
-                    <small className={styles.prodPrice}>{product.price} ETH</small>
+                    <small className={styles.prodPrice}>{shimmer? "": product.price+" ETH"}</small>
                     {product.isSoulbound ? <div className={styles.soulBound}>Soulbound</div> : <></>}
                 </div>
                 {shimmer ? <></> : <div className={styles.spacer}></div>}

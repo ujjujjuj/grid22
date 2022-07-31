@@ -104,3 +104,65 @@
     font-size: 0.95em;
     margin-top: 2px;
 }
+
+.prodViewWrap .overlay{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transition: all 0.2s ease;
+    z-index: 21;
+    right: 0;
+    opacity: 0.5;
+    background-color: black;
+}
+.prodViewWrap .popUp{
+    position: fixed;
+    background-color: white;
+    top: 50%;
+    left: 50%;
+    border-radius: 4px;
+    padding: 35px 45px;
+    transform: translate(-50%,-50%);
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.prodViewWrap .popUp h3{
+    font-weight: 500;
+}
+.prodViewWrap .popUp h1{
+    font-weight: 600;
+    font-size: 1.5em;
+    margin-top: 5px;
+    color: #027CD5;
+}
+
+.prodViewWrap .popUp small{
+    color: #0e1850;
+    margin-top: 5px;
+    font-weight: 500;
+}
+.prodViewWrap .popUp small span{
+    color: #fb641b;
+    font-weight: 600;
+}
+.prodViewWrap .popUp .buyBtn{
+    margin-top: 10px;
+    padding: 10px 25px;
+    font-size: 0.9em;
+}
+.prodViewWrap .popUp >span{
+    font-size: 0.8em;
+    user-select: none;
+    margin-block: 7px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.prodViewWrap .popUp >span.disabled{
+    opacity: 0.5;
+    pointer-events: none;
+}
