@@ -2,20 +2,18 @@ import styles from "../styles/productview.module.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/auth";
 import { ethers } from "ethers";
+import Warranty from "./Warranty";
 
-const OrderView = ({ order, select, resale, isResale = true ,isAdmin = false}) => {
+const WarrantyReason = ["Wear and Tear", "Theft", "Water Damage"];
+const WarrantyOutcome = ["Repair", "Replace"];
+
+const OrderView = ({ order, select, resale, isResale = true, isAdmin = false }) => {
     const [plusBalance, setPlusBalance] = useState(10);
     const [isPopVisible, setPopVisible] = useState(false);
     const [resalePrice, setResalePrice] = useState("0.001");
     const { web3Data } = useAuth();
     const [owners, setOwners] = useState([]);
-    const [warrantyHistory, setWarrantyHistory] = useState([
-        {
-            claimed: true,
-            date: "22 July 2022",
-            reason: "Theft",
-        },
-    ]);
+    const [warrantyHistory, setWarrantyHistory] = useState([]);
 
     const buyProduct = async () => {
         await web3Data.contract.putForResale(order.sno, ethers.utils.parseEther(resalePrice));
@@ -40,6 +38,7 @@ const OrderView = ({ order, select, resale, isResale = true ,isAdmin = false}) =
             const itemInfo = await web3Data.contract.purchasedItems(order.sno);
             const timeLeft = Date.now() - (order.warranty * 30 * 24 * 60 * 60 + itemInfo[1].toNumber());
             const warrantyInfo = await web3Data.contract.getItemWarranty(order.sno);
+            console.log(warrantyInfo);
             setWarrantyHistory(warrantyInfo);
         })();
         console.log(order);
@@ -109,8 +108,8 @@ const OrderView = ({ order, select, resale, isResale = true ,isAdmin = false}) =
                     <div className={styles.warrantyWrap}>
                         <div className={styles.resaleInfo}>
                             <div>
-                                <h3>Warranty Ends On</h3>
-                                <p>23 June 2022</p>
+                                <h3>Warranty</h3>
+                                <p>{order.warranty} month(s)</p>
                             </div>
                         </div>
                     </div>
@@ -139,11 +138,19 @@ const OrderView = ({ order, select, resale, isResale = true ,isAdmin = false}) =
                                     <h3>Warranty History</h3>
                                     <ul className={styles.warrantyList}>
                                         {warrantyHistory.map((x, n) => {
+                                            console.log(x);
                                             return (
                                                 <li key={n}>
-                                                    Claimed: <span>{x.claimed ? "Yes" : "No"}</span>
-                                                    &nbsp;&nbsp; Date: <span>{x.date}</span>
-                                                    &nbsp;&nbsp; Reason: <span>{x.reason}</span>
+                                                    Date:{" "}
+                                                    <span>
+                                                        {new Date(x[2].toNumber() * 1000)
+                                                            .toISOString()
+                                                            .substring(0, 10)}
+                                                    </span>
+                                                    <br />
+                                                    &nbsp;&nbsp;&nbsp; Reason: <span>{WarrantyReason[x[0]]}</span>
+                                                    <br />
+                                                    &nbsp;&nbsp;&nbsp; Outcome: <span>{WarrantyOutcome[x[1]]}</span>
                                                 </li>
                                             );
                                         })}
@@ -155,12 +162,18 @@ const OrderView = ({ order, select, resale, isResale = true ,isAdmin = false}) =
                         <></>
                     )}
 
-                    {isAdmin?<></>:
-                    <div className={`${styles.buyBtn} ${order.resale ||order.isSoulbound ? styles.disabled : ""}`} onClick={()=>{
-                        setPopVisible(true)
-                    }}>
-                        <i class="fas fa-coins"></i>&nbsp;&nbsp;List for Resale
-                    </div>}
+                    {isAdmin ? (
+                        <></>
+                    ) : (
+                        <div
+                            className={`${styles.buyBtn} ${order.resale || order.isSoulbound ? styles.disabled : ""}`}
+                            onClick={() => {
+                                setPopVisible(true);
+                            }}
+                        >
+                            <i class="fas fa-coins"></i>&nbsp;&nbsp;List for Resale
+                        </div>
+                    )}
                 </div>
             </section>
         </>

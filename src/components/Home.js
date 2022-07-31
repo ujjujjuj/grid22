@@ -6,7 +6,7 @@ import MyAccount from "./Account";
 import Navbar from "./Navbar";
 import OrderHistory from "./Orders";
 import Products from "./Products";
-import contractAddress from "../data/localhost.json";
+import contractAddress from "../data/polygontest.json";
 
 const UserHome = () => {
     const { user, web3Data, connectMetamask } = useAuth();

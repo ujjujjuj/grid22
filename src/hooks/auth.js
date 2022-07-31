@@ -1,6 +1,6 @@
 import { useState, useContext, createContext, useEffect } from "react";
 import contractInfo from "../data/FlipkartItem.json";
-import contractAddress from "../data/localhost.json";
+import contractAddress from "../data/polygontest.json";
 import { ethers } from "ethers";
 
 export const AuthContext = createContext({ isLoggedIn: false });

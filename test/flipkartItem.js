@@ -211,7 +211,6 @@ describe("Flipkart Item", () => {
             await hardhatToken.addWarranty(products[0].serialNumber, WarrantyReason.THEFT, WarrantyOutcome.REPLACE);    
 
             const warranties = await hardhatToken.getItemWarranty(products[0].serialNumber);
-            console.log(Object.values(warranties[1])[2] - block.timestamp);
 
             // TODO : implement this properly using enums
             expect(Object.values(warranties[0])[0]).to.equal(0);

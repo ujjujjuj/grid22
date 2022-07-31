@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 import OrderHistory from './Orders';
 import Navbar from "./Navbar";
 import Warranty from "./Warranty";
-import contractAddress from "../data/localhost.json";
+import contractAddress from "../data/polygontest.json";
 
 const Admin = () => {
     const { user, connectMetamask } = useAuth();
